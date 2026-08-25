@@ -25,14 +25,55 @@ const services = [
 ];
 
 const images = [
-  "/assets/images/experiencia/1.avif",
-  "/assets/images/experiencia/2.avif",
-  "/assets/images/experiencia/3.avif",
-  "/assets/images/experiencia/4.avif",
-  "/assets/images/experiencia/5.avif",
-  "/assets/images/experiencia/6.avif",
-  "/assets/images/experiencia/7.avif",
-  "/assets/images/experiencia/8.avif",
+  { src: "/assets/all-images/Piscina-1---5.webp", cat: "piscina" },
+  { src: "/assets/all-images/Piscina-1---6.webp", cat: "piscina" },
+  { src: "/assets/all-images/Piscina-1---7.webp", cat: "piscina" },
+  { src: "/assets/all-images/Piscina-2---3.webp", cat: "piscina" },
+  { src: "/assets/all-images/Piscina-2---4.webp", cat: "piscina" },
+  { src: "/assets/all-images/Sillas-piscina-1.webp", cat: "piscina" },
+  { src: "/assets/all-images/Jacuzzi-4.webp", cat: "bienestar" },
+  { src: "/assets/all-images/Jacuzzi-5.webp", cat: "bienestar" },
+  { src: "/assets/all-images/Jacuzzi-6.webp", cat: "bienestar" },
+  { src: "/assets/all-images/Jacuzzi-7.webp", cat: "bienestar" },
+  { src: "/assets/all-images/Baño-Turco-1.webp", cat: "bienestar" },
+  { src: "/assets/all-images/Baño-Turco-2.webp", cat: "bienestar" },
+  { src: "/assets/all-images/Bar-BBQ-4.webp", cat: "gastronomia" },
+  { src: "/assets/all-images/Bar-BBQ-5.webp", cat: "gastronomia" },
+  { src: "/assets/all-images/Bar-BBQ-6.webp", cat: "gastronomia" },
+  { src: "/assets/all-images/Bar-BBQ-7.webp", cat: "gastronomia" },
+  { src: "/assets/all-images/Sala---Cocina-4.webp", cat: "gastronomia" },
+  { src: "/assets/all-images/Sala---Cocina-5.webp", cat: "gastronomia" },
+  { src: "/assets/all-images/Cine-Exterior-3.webp", cat: "cine" },
+  { src: "/assets/all-images/Cine-Exterior-4.webp", cat: "cine" },
+  { src: "/assets/all-images/Cine-Exterior-5.webp", cat: "cine" },
+  { src: "/assets/all-images/Cine-Exterior-6.webp", cat: "cine" },
+  { src: "/assets/all-images/Cine-interior-1.webp", cat: "cine" },
+  { src: "/assets/all-images/Cine-interior-2.webp", cat: "cine" },
+  { src: "/assets/all-images/Gym-3.webp", cat: "deportes" },
+  { src: "/assets/all-images/Gym-4.webp", cat: "deportes" },
+  { src: "/assets/all-images/Futbolín-1.webp", cat: "deportes" },
+  { src: "/assets/all-images/Futbolín-2.webp", cat: "deportes" },
+  { src: "/assets/all-images/Volleyball.webp", cat: "deportes" },
+  { src: "/assets/all-images/Hockey-de-Aire-1.webp", cat: "deportes" },
+  { src: "/assets/all-images/Mini-Fútbol-2.webp", cat: "deportes" },
+  { src: "/assets/all-images/Ping-pong---Futbolín-1.webp", cat: "deportes" },
+  { src: "/assets/all-images/Juegos-de-mesa-2.webp", cat: "entretenimiento" },
+  { src: "/assets/all-images/Juegos-de-mesa-3.webp", cat: "entretenimiento" },
+  { src: "/assets/all-images/Juegos-de-mesa-4.webp", cat: "entretenimiento" },
+  { src: "/assets/all-images/Dardos-1.webp", cat: "entretenimiento" },
+  { src: "/assets/all-images/Bolirana-1.webp", cat: "entretenimiento" },
+  { src: "/assets/all-images/Bolirana-2.webp", cat: "entretenimiento" },
+  { src: "/assets/all-images/Jardines-3.webp", cat: "exterior" },
+  { src: "/assets/all-images/Jardines-4.webp", cat: "exterior" },
+  { src: "/assets/all-images/Terraza-5.webp", cat: "exterior" },
+  { src: "/assets/all-images/Terraza-6.webp", cat: "exterior" },
+  { src: "/assets/all-images/Terraza-7.webp", cat: "exterior" },
+  { src: "/assets/all-images/Capilla-4.webp", cat: "exterior" },
+  { src: "/assets/all-images/Capilla-5.webp", cat: "exterior" },
+  { src: "/assets/all-images/Área-Infantil-1.webp", cat: "familiar" },
+  { src: "/assets/all-images/Área-Infantil-2.webp", cat: "familiar" },
+  { src: "/assets/all-images/Área-Infantil-3.webp", cat: "familiar" },
+  { src: "/assets/all-images/Área-Infantil-4.webp", cat: "familiar" },
 ];
 
 const eventTypes = [
@@ -121,7 +162,7 @@ const extras = [
   <main>
     <section
       class="page-hero"
-      style={`background-image: url('/assets/images/experiencia/piscina.webp')`}
+      style={`background-image: url('/assets/all-images/Piscina-1---6.webp')`}
     >
       <div class="page-hero-content">
         <h1>Experiencias</h1>
@@ -147,13 +188,13 @@ const extras = [
             style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"
           >
             {
-              images.map((src, i) => (
+              images.map((img, i) => (
                 <div
                   class={`img-hover-zoom`}
                   style={`border-radius: 12px; overflow: hidden; aspect-ratio: ${i === 0 || i === 5 ? "1/1" : "4/3"}; ${i === 0 ? "grid-column: 1 / -1;" : ""}`}
                 >
                   <img
-                    src={src}
+                    src={img.src}
                     alt=""
                     style="width: 100%; height: 100%; object-fit: cover;"
                     loading="lazy"

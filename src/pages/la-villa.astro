@@ -2,10 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const rooms = [
-  { name: 'Alcoba 1 (Principal)', label: 'Suite Privada', desc: 'Cama King-size premium, aire acondicionado, amplio vestier privado y un elegante baño de lujo integrado.', img: '/assets/images/rooms/alcoba-1.avif' },
-  { name: 'Alcoba 2', label: 'Conexión Exterior', desc: 'Confortable habitación climatizada con acceso directo a las terrazas, amplio vestier y baño privado moderno.', img: '/assets/images/rooms/alcoba-2.avif' },
-  { name: 'Alcoba 3', label: 'Familiar', desc: 'Espaciosa y acogedora, equipada con vestier moderno, aire acondicionado y baño independiente de diseño armonioso.', img: '/assets/images/rooms/alcoba-3.avif' },
-  { name: 'Alcoba 4', label: 'Alta Capacidad', desc: 'Habitación múltiple ideal para grupos grandes, con hermosas vistas exteriores, vestier y baño privado.', img: '/assets/images/rooms/alcoba-4.avif' },
+  { name: 'Alcoba 1 (Principal)', label: 'Suite Privada', desc: 'Cama King-size premium, aire acondicionado, amplio vestier privado y un elegante baño de lujo integrado.', images: ['/assets/all-images/Dormitorio-1---1.webp', '/assets/all-images/Dormitorio-1---2.webp', '/assets/all-images/Dormitorio-1---3.webp', '/assets/all-images/Walking-Closet-D1--1.webp', '/assets/all-images/Walking-Closet-D1--2.webp'] },
+  { name: 'Alcoba 2', label: 'Conexión Exterior', desc: 'Confortable habitación climatizada con acceso directo a las terrazas, amplio vestier y baño privado moderno.', images: ['/assets/all-images/Dormitorio-2---1.webp', '/assets/all-images/Dormitorio-2---2.webp', '/assets/all-images/Dormitorio-2---3.webp', '/assets/all-images/Dormitorio-2---4.webp', '/assets/all-images/Dormitorio-2---5.webp', '/assets/all-images/Dormitorio-2---6.webp', '/assets/all-images/Walking-Closet-D2--1.webp'] },
+  { name: 'Alcoba 3', label: 'Familiar', desc: 'Espaciosa y acogedora, equipada con vestier moderno, aire acondicionado y baño independiente de diseño armonioso.', images: ['/assets/all-images/Dormitorio-3---1.webp', '/assets/all-images/Dormitorio-3---2.webp', '/assets/all-images/Dormitorio-3---3.webp', '/assets/all-images/Dormitorio-3---4.webp', '/assets/all-images/Walking-Closet-D3--1.webp'] },
+  { name: 'Alcoba 4', label: 'Alta Capacidad', desc: 'Habitación múltiple ideal para grupos grandes, con hermosas vistas exteriores, vestier y baño privado.', images: ['/assets/all-images/Dormitorio-4---1.webp', '/assets/all-images/Dormitorio-4---2.webp', '/assets/all-images/Dormitorio-4---3.webp', '/assets/all-images/Walking-Closet-D4--1.webp'] },
 ];
 
 const amenities = [
@@ -94,7 +94,7 @@ const faq = [
 ---
 <BaseLayout title="La Villa — Área 89">
 <main>
-    <section class="page-hero" style={`background-image: url('/assets/images/la-villa/la-villa.webp')`}>
+    <section class="page-hero" style={`background-image: url('/assets/all-images/Fachada-5.webp')`}>
       <div class="page-hero-content">
         <h1>La Villa</h1>
       </div>
@@ -104,7 +104,7 @@ const faq = [
     <section class="page-content">
       <div class="page-content-inner" style="display: grid; grid-template-columns: 4fr 5fr 3fr; gap: clamp(24px, 3vw, 48px); align-items: end;">
         <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 3/4;">
-          <img src="/assets/images/about/image-1.avif" alt="Villa Área 89" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
+          <img src="/assets/all-images/Fachada-6.webp" alt="Villa Área 89" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
         </div>
         <div>
           <h2 style="margin-bottom: 24px;">Un mundo privado reservado para lo extraordinario.</h2>
@@ -124,7 +124,7 @@ const faq = [
             <h4 style="margin: 8px 0 0; font: 500 clamp(14px,1.2vw,18px)/1.35 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.55);">Amenities<br />Exclusivos</h4>
           </div>
           <div style="border-radius: 14px; overflow: hidden; aspect-ratio: 4/3;">
-            <img src="/assets/images/about/image-2.avif" alt="Amenities" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
+            <img src="/assets/all-images/Jardines-4.webp" alt="Amenities" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@ const faq = [
         </p>
 
         <div style="display: flex; flex-direction: column; gap: 24px;">
-          {rooms.map((room) => (
+          {rooms.map((room, roomIndex) => (
             <div class="room-card">
               <div class="room-card-text">
                 <div class="room-card-header">
@@ -148,8 +148,15 @@ const faq = [
                 </div>
                 <p>{room.desc}</p>
               </div>
-              <div class="room-card-image">
-                <img src={room.img} alt={room.name} loading="lazy" />
+              <div class="room-card-image" data-room-slideshow={roomIndex}>
+                {room.images.map((src, i) => (
+                  <img src={src} alt={`${room.name} ${i + 1}`} class={i === 0 ? 'is-active' : ''} loading="lazy" />
+                ))}
+                <div class="room-slideshow-dots">
+                  {room.images.map((_, i) => (
+                    <button type="button" class={`room-slideshow-dot${i === 0 ? ' is-active' : ''}`} aria-label={`Imagen ${i + 1}`} />
+                  ))}
+                </div>
               </div>
             </div>
           ))}

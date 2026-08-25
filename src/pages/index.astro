@@ -2,23 +2,23 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const heroSlides = [
-  { src: '/assets/images/hero/image-1.avif', alt: 'Villa Área 89 en Rivera, Huila' },
-  { src: '/assets/images/hero/image-2.avif', alt: 'Villa Área 89 en Rivera, Huila' },
-  { src: '/assets/images/hero/image-3.avif', alt: 'Villa Área 89 en Rivera, Huila' },
-  { src: '/assets/images/hero/image-4.avif', alt: 'Villa Área 89 en Rivera, Huila' },
-  { src: '/assets/images/hero/image-5.avif', alt: 'Villa Área 89 en Rivera, Huila' },
-  { src: '/assets/images/hero/image-6.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/all-images/Fachada-1.webp', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/all-images/Aérea-1.webp', alt: 'Vista aérea de Área 89' },
+  { src: '/assets/all-images/Piscina-1---1.webp', alt: 'Piscina de Área 89' },
+  { src: '/assets/all-images/Fachada-3.webp', alt: 'Fachada de Área 89' },
+  { src: '/assets/all-images/Aérea-3.webp', alt: 'Vista aérea de Área 89' },
+  { src: '/assets/all-images/Terraza-1.webp', alt: 'Terraza de Área 89' },
 ];
 
 const experienceImages = [
-  '/assets/images/experiencia/1.avif',
-  '/assets/images/experiencia/2.avif',
-  '/assets/images/experiencia/3.avif',
-  '/assets/images/experiencia/4.avif',
-  '/assets/images/experiencia/5.avif',
-  '/assets/images/experiencia/6.avif',
-  '/assets/images/experiencia/7.avif',
-  '/assets/images/experiencia/8.avif',
+  '/assets/all-images/Piscina-1---2.webp',
+  '/assets/all-images/Jacuzzi-1.webp',
+  '/assets/all-images/Bar-BBQ-1.webp',
+  '/assets/all-images/Cine-Exterior-1.webp',
+  '/assets/all-images/Gym-1.webp',
+  '/assets/all-images/Jardines-1.webp',
+  '/assets/all-images/Juegos-de-mesa-1.webp',
+  '/assets/all-images/Capilla-1.webp',
 ];
 
 const videos = [
@@ -30,11 +30,11 @@ const videos = [
 ];
 
 const videoPosters = [
-  '/assets/images/experiencia/2.avif',
-  '/assets/images/experiencia/5.avif',
-  '/assets/images/experiencia/8.avif',
-  '/assets/images/rooms/alcoba-1.avif',
-  '/assets/images/rooms/alcoba-3.avif',
+  '/assets/all-images/Piscina-1---3.webp',
+  '/assets/all-images/Jacuzzi-2.webp',
+  '/assets/all-images/Terraza-2.webp',
+  '/assets/all-images/Cine-Exterior-2.webp',
+  '/assets/all-images/Bar-BBQ-2.webp',
 ];
 ---
 <BaseLayout showPreloader={true}>
@@ -47,7 +47,7 @@ const videoPosters = [
             class={`hero-slide${index === 0 ? ' is-active' : ''}`}
             src={slide.src}
             alt=""
-            loading={index === 0 ? 'eager' : 'lazy'}
+            loading="eager"
             decoding="async"
           />
         ))}
@@ -114,7 +114,7 @@ const videoPosters = [
     <section class="about-section reveal">
       <div class="about-grid">
         <div class="about-image-left">
-          <img src="/assets/images/about/image-1.avif" alt="Villa Área 89" loading="lazy" decoding="async" />
+          <img src="/assets/all-images/Fachada-2.webp" alt="Villa Área 89" loading="lazy" decoding="async" />
         </div>
         <div class="about-middle">
           <h2>Un mundo privado reservado para lo extraordinario.</h2>
@@ -138,7 +138,7 @@ const videoPosters = [
             <h4>Amenities<br />Exclusivos</h4>
           </div>
           <div class="about-image-right">
-            <img src="/assets/images/about/image-2.avif" alt="Amenities de la villa" loading="lazy" decoding="async" />
+            <img src="/assets/all-images/Jardines-2.webp" alt="Amenities de la villa" loading="lazy" decoding="async" />
           </div>
         </div>
       </div>

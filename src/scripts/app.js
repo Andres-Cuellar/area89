@@ -226,6 +226,43 @@ function initExperienceSlideshow() {
   cleanupFns.push(() => clearInterval(timer));
 }
 
+function initRoomSlideshows() {
+  const containers = document.querySelectorAll('[data-room-slideshow]');
+  if (!containers.length) return;
+
+  containers.forEach((container) => {
+    const slides = container.querySelectorAll('img');
+    const dots = container.querySelectorAll('.room-slideshow-dot');
+    if (slides.length < 2) return;
+
+    let index = 0;
+    let timer;
+
+    const goTo = (next) => {
+      slides[index]?.classList.remove('is-active');
+      dots[index]?.classList.remove('is-active');
+      index = next;
+      slides[index]?.classList.add('is-active');
+      dots[index]?.classList.add('is-active');
+    };
+
+    const start = () => {
+      clearInterval(timer);
+      timer = setInterval(() => goTo((index + 1) % slides.length), 4000);
+    };
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        goTo(i);
+        start();
+      });
+    });
+
+    start();
+    cleanupFns.push(() => clearInterval(timer));
+  });
+}
+
 function initCountUp() {
   const nodes = document.querySelectorAll('[data-count]');
   if (!nodes.length) return;
@@ -296,6 +333,7 @@ function boot() {
   initPageIntro();
   initHeroSlideshow();
   initExperienceSlideshow();
+  initRoomSlideshows();
   initCountUp();
   initPreloader();
 }
