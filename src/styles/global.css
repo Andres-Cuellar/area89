@@ -80,7 +80,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--green);
+  background: var(--dark);
   transform: translateY(0);
   transition: transform 1.5s cubic-bezier(0.45, 0, 0.15, 1);
 }
@@ -89,31 +89,16 @@ p {
   transform: translateY(-100%);
 }
 
-.type-line {
-  font: 700 2.6rem 'Instrument Sans', sans-serif;
-  letter-spacing: -0.02em;
-  color: #fff;
+.preloader-logo {
+  width: min(180px, 40vw);
+  height: auto;
+  filter: brightness(0) invert(1);
+  animation: preloader-pulse 1.5s ease-in-out infinite alternate;
 }
 
-.cursor {
-  display: inline-block;
-  width: 3px;
-  height: 1.1em;
-  margin-left: 5px;
-  border-radius: 99px;
-  background: #fff;
-  vertical-align: -0.12em;
-  animation: blink 0.7s step-end infinite;
-}
-
-.cursor-hidden .cursor {
-  opacity: 0;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
+@keyframes preloader-pulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
 }
 
 /* ── Navigation ── */

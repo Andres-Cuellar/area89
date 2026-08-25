@@ -300,29 +300,12 @@ function initPreloader() {
     return;
   }
 
-  const typed = document.getElementById('typed-text');
-  const cursor = document.getElementById('preloader-cursor');
-  const text = 'Área 89';
-  let i = 0;
-
-  const type = () => {
-    if (!typed) return;
-    if (i < text.length) {
-      typed.textContent += text[i];
-      i += 1;
-      setTimeout(type, 140);
-    } else {
-      setTimeout(() => {
-        if (cursor) cursor.style.opacity = '0';
-        preloader.classList.add('lifting');
-        sessionStorage.setItem('a89-preloader', '1');
-        preloader.dataset.done = '1';
-        setTimeout(() => preloader.remove(), 1600);
-      }, 700);
-    }
-  };
-
-  setTimeout(type, 600);
+  setTimeout(() => {
+    preloader.classList.add('lifting');
+    sessionStorage.setItem('a89-preloader', '1');
+    preloader.dataset.done = '1';
+    setTimeout(() => preloader.remove(), 1600);
+  }, 1200);
 }
 
 function boot() {
