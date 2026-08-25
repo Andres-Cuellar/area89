@@ -1,0 +1,90 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  showPreloader?: boolean;
+}
+
+const {
+  title = 'Área 89 — Villa de Lujo en Rivera, Huila',
+  description = 'Exclusiva villa privada de lujo en Rivera, Huila. Más de 90 amenities, privacidad absoluta y experiencias memorables.',
+  showPreloader = false,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/assets/images/icono-32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <ClientRouter />
+  </head>
+  <body>
+    {showPreloader && (
+      <div class="preloader" id="preloader" transition:persist="preloader">
+        <div class="type-line">
+          <span id="typed-text"></span>
+          <span class="cursor" id="preloader-cursor"></span>
+        </div>
+      </div>
+    )}
+
+    <Header />
+
+    <div class="page-shell" transition:animate="fade">
+      <slot />
+    </div>
+
+    <Footer />
+
+    <script src="../scripts/app.js"></script>
+  </body>
+</html>
+
+<style is:global>
+  @keyframes page-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes page-fade-in {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  ::view-transition-old(root) {
+    animation: page-fade-out 0.25s ease both;
+  }
+
+  ::view-transition-new(root) {
+    animation: page-fade-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Only unique names — never repeat across multiple nodes */
+  #site-nav {
+    view-transition-name: site-nav;
+  }
+
+  #menu-overlay {
+    view-transition-name: menu-overlay;
+  }
+
+  ::view-transition-old(site-nav),
+  ::view-transition-new(site-nav),
+  ::view-transition-old(menu-overlay),
+  ::view-transition-new(menu-overlay) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+</style>

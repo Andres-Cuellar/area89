@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const images = [
+  '/assets/images/experiencia/1.avif',
+  '/assets/images/experiencia/2.avif',
+  '/assets/images/experiencia/3.avif',
+  '/assets/images/experiencia/4.avif',
+  '/assets/images/experiencia/5.avif',
+  '/assets/images/experiencia/6.avif',
+  '/assets/images/experiencia/7.avif',
+  '/assets/images/experiencia/8.avif',
+  '/assets/images/rooms/alcoba-1.avif',
+  '/assets/images/rooms/alcoba-2.avif',
+  '/assets/images/rooms/alcoba-3.avif',
+  '/assets/images/rooms/alcoba-4.avif',
+  '/assets/images/rooms/image-1.avif',
+  '/assets/images/rooms/image-2.avif',
+  '/assets/images/rooms/image-3.avif',
+  '/assets/images/rooms/image-5.avif',
+  '/assets/images/hero/image-1.avif',
+  '/assets/images/hero/image-2.avif',
+  '/assets/images/hero/image-3.avif',
+  '/assets/images/hero/image-4.avif',
+];
+---
+<BaseLayout title="Galería — Área 89">
+<main>
+    <section class="page-hero" style={`background-image: url('/assets/images/hero/image-5.avif')`}>
+      <div class="page-hero-content">
+        <h1>Galería</h1>
+      </div>
+    </section>
+
+    <section class="page-content">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Galería</h2>
+        <p style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);">
+          Imágenes de la propiedad, experiencias y espacios de Área 89.
+        </p>
+        <div class="gallery-masonry">
+          {images.map((src) => (
+            <div class="gallery-masonry-item">
+              <img src={src} alt="" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+</main>
+</BaseLayout>

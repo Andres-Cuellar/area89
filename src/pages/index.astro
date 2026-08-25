@@ -1,0 +1,272 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const heroSlides = [
+  { src: '/assets/images/hero/image-1.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/images/hero/image-2.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/images/hero/image-3.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/images/hero/image-4.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/images/hero/image-5.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+  { src: '/assets/images/hero/image-6.avif', alt: 'Villa Área 89 en Rivera, Huila' },
+];
+
+const experienceImages = [
+  '/assets/images/experiencia/1.avif',
+  '/assets/images/experiencia/2.avif',
+  '/assets/images/experiencia/3.avif',
+  '/assets/images/experiencia/4.avif',
+  '/assets/images/experiencia/5.avif',
+  '/assets/images/experiencia/6.avif',
+  '/assets/images/experiencia/7.avif',
+  '/assets/images/experiencia/8.avif',
+];
+
+const videos = [
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260528_154759_4cdc8175-8261-497c-b688-9477c76545d4.mp4',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260528_154751_39b1b9bb-2708-4211-b6a2-d39f93309e52.mp4',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260528_154737_eba7900c-0313-483c-a30a-632c747ccc42.mp4',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260602_144009_4348fe33-f885-4345-8e92-3fe1c2625d32.mp4',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260602_145337_e44eaa8c-6bb1-4a6e-a70f-ed0231cbaccb.mp4',
+];
+
+const videoPosters = [
+  '/assets/images/experiencia/2.avif',
+  '/assets/images/experiencia/5.avif',
+  '/assets/images/experiencia/8.avif',
+  '/assets/images/rooms/alcoba-1.avif',
+  '/assets/images/rooms/alcoba-3.avif',
+];
+---
+<BaseLayout showPreloader={true}>
+<main id="top">
+    <!-- Hero Section -->
+    <section class="hero-section" id="destino" aria-label="Inicio">
+      <div class="hero-slideshow" id="hero-slideshow" aria-hidden="true">
+        {heroSlides.map((slide, index) => (
+          <img
+            class={`hero-slide${index === 0 ? ' is-active' : ''}`}
+            src={slide.src}
+            alt=""
+            loading={index === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        ))}
+      </div>
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-text-block" id="hero-text">
+        <p class="hero-eyebrow">Área 89 Rivera-Huila</p>
+        <h1 class="hero-title">El escenario perfecto para tus momentos más importantes.</h1>
+        <p class="hero-copy">
+          Más que ofrecer hospedaje, creamos un destino para quienes valoran el privilegio de disfrutar
+          momentos extraordinarios sin interrupciones ni aglomeraciones. Disfruta de una villa imponente,
+          donde cada espacio es tuyo y cada instante se convierte en una historia perfecta que permanecerá
+          para siempre.
+        </p>
+        <div class="hero-dots" role="tablist" aria-label="Imágenes del hero" id="hero-dots">
+          {heroSlides.map((slide, index) => (
+            <button
+              type="button"
+              class={`hero-dot${index === 0 ? ' is-active' : ''}`}
+              aria-label={`Ir a imagen ${index + 1}`}
+              aria-selected={index === 0 ? 'true' : 'false'}
+              data-index={index}
+            />
+          ))}
+        </div>
+        <div class="hero-search">
+          <div class="hero-search-field">
+            <label>Llegada</label>
+            <input type="date" aria-label="Fecha de llegada" />
+          </div>
+          <div class="hero-search-field">
+            <label>Salida</label>
+            <input type="date" aria-label="Fecha de salida" />
+          </div>
+          <div class="hero-search-field">
+            <label>Adultos</label>
+            <select aria-label="Número de adultos">
+              <option>2</option>
+              <option>1</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+          </div>
+          <div class="hero-search-field">
+            <label>Niños</label>
+            <select aria-label="Número de niños">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+          <button type="button" class="hero-search-btn">
+            Consultar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section reveal">
+      <div class="about-grid">
+        <div class="about-image-left">
+          <img src="/assets/images/about/image-1.avif" alt="Villa Área 89" loading="lazy" decoding="async" />
+        </div>
+        <div class="about-middle">
+          <h2>Un mundo privado reservado para lo extraordinario.</h2>
+          <p>
+            Área 89 es un destino exclusivo de hotelería premium concebido bajo un concepto diferenciador:
+            la privacidad absoluta. A diferencia de la hotelería tradicional, no alquilamos habitaciones
+            individuales; entregamos las llaves de la propiedad entera para garantizar un entorno
+            completamente reservado, alejado de lo convencional y de las aglomeraciones del exterior.
+          </p>
+          <p>
+            Nuestra filosofía se basa en el lujo contemporáneo, discreto y refinado. No buscamos ser una
+            finca tradicional, sino el destino que las personas recuerdan con nostalgia. Aquí, cada detalle
+            está milimétricamente diseñado para despertar curiosidad, generar bienestar y ofrecer libertad
+            absoluta a quienes valoran los momentos que realmente importan.
+          </p>
+          <a href="#la-villa" class="about-btn">Conocer la Villa →</a>
+        </div>
+        <div class="about-right">
+          <div class="about-funfact">
+            <h3><span data-count="90">90</span><span>+</span></h3>
+            <h4>Amenities<br />Exclusivos</h4>
+          </div>
+          <div class="about-image-right">
+            <img src="/assets/images/about/image-2.avif" alt="Amenities de la villa" loading="lazy" decoding="async" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dark Statement Section -->
+    <section class="s2-section reveal">
+      <div class="s2-content">
+        <div class="s2-copy">
+          <p class="s2-statement">
+            Somos más que hospedaje. Somos el escenario donde la vida sucede en privacidad, sin prisa y sin ruido.
+          </p>
+          <p class="s2-body">
+            Área 89 fue diseñado para quienes entienden que el verdadero lujo no se exhibe: se vive.
+            Un espacio completamente reservado donde cada rincón ha sido pensado para ofrecer una experiencia
+            de descanso, conectión y celebración sin precedentes.
+          </p>
+        </div>
+        <div class="s2-stats-row">
+          <div class="s2-stat">
+            <div class="stat-number"><span data-count="90">0</span>+</div>
+            <div class="stat-label">Amenities Exclusivos</div>
+          </div>
+          <div class="s2-stat">
+            <div class="stat-number"><span data-count="100">0</span>%</div>
+            <div class="stat-label">Privacidad Absoluta</div>
+          </div>
+          <div class="s2-stat">
+            <div class="stat-number"><span data-count="21">0</span></div>
+            <div class="stat-label">Huéspedes Máximo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience-section reveal">
+      <div class="experience-grid">
+        <div>
+          <h2 class="experience-title">Nuestra Experiencia Insignia</h2>
+          <p class="experience-desc">
+            Hemos diseñado más de 90 amenities para que no tengas que salir de la propiedad. Todo lo que
+            necesitas para el entretenimiento, el bienestar y la celebración está en un solo lugar.
+          </p>
+          <div class="experience-slideshow" id="experience-slideshow">
+            {experienceImages.map((src, i) => (
+              <img
+                class={`experience-slide${i === 0 ? ' is-active' : ''}`}
+                src={src}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            ))}
+          </div>
+        </div>
+        <div class="service-cards">
+          <div class="service-card">
+            <div class="service-icon"><img src="/assets/images/service/icon-1.svg" alt="" /></div>
+            <div class="service-text">
+              <h3>Cine Privado y al Aire Libre</h3>
+              <p>Disfruta de nuestra sala de cine interior o vive la magia de proyecciones cinematográficas gigantes directamente desde la piscina.</p>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><img src="/assets/images/service/icon-2.svg" alt="" /></div>
+            <div class="service-text">
+              <h3>Circuito de Bienestar</h3>
+              <p>Relájate en nuestra piscina principal con rodadero, sumérgete en el jacuzzi climatizado o purifica tu cuerpo en el baño turco privado.</p>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><img src="/assets/images/service/icon-3.svg" alt="" /></div>
+            <div class="service-text">
+              <h3>Zona BBQ y Gastro-Bar</h3>
+              <p>Amplia barra social, asador equipado y espacios ideales para coctelería y platos de autor preparados para tus invitados.</p>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><img src="/assets/images/service/icon-4.svg" alt="" /></div>
+            <div class="service-text">
+              <h3>Entretenimiento Total</h3>
+              <p>Gimnasio privado, canchas deportivas, mesa de ping-pong, futbolito, dinamo y juegos de mesa gigantes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery / Marquee Section -->
+    <section id="experiencias" class="s3-gallery-section reveal-scale">
+      <div class="marquee-section" aria-hidden="true">
+        <div class="marquee">
+          <div class="marquee-track">
+            {['Privacidad', 'Exclusividad', 'Naturaleza', 'Villa', 'Privacidad', 'Exclusividad', 'Naturaleza', 'Villa'].map((word) => (
+              <div class="marquee-item">
+                <h2><span>{word}</span></h2>
+                <img src="/assets/images/logo-square.webp" alt="" />
+              </div>
+            ))}
+          </div>
+          <div class="marquee-track" aria-hidden="true">
+            {['Privacidad', 'Exclusividad', 'Naturaleza', 'Villa', 'Privacidad', 'Exclusividad', 'Naturaleza', 'Villa'].map((word) => (
+              <div class="marquee-item">
+                <h2><span>{word}</span></h2>
+                <img src="/assets/images/logo-square.webp" alt="" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="s3-gallery-content">
+        <div class="gallery-expand-row">
+          {videoPosters.map((src, i) => (
+            <div class="gallery-expand-item">
+              <video
+                src={src}
+                poster={videoPosters[i]}
+                autoplay
+                loop
+                muted
+                playsinline
+                aria-label={`Experiencia Área 89 ${i + 1}`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+</main>
+</BaseLayout>

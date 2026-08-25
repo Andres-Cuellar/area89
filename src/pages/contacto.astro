@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const info = [
+  { title: 'Ubicación', text: 'A 1 km del municipio de Rivera (Huila), sobre la vía principal desde la doble calzada que conduce a Neiva.', icon: 'map' },
+  { title: 'Correo Electrónico', text: 'riveraarea89@gmail.com', icon: 'mail', href: 'mailto:riveraarea89@gmail.com' },
+  { title: 'Línea de Atención', text: '+57 310 2067776', icon: 'phone', href: 'https://wa.me/573102067776' },
+];
+---
+<BaseLayout title="Contacto — Área 89">
+<main>
+    <section class="page-hero" style={`background-image: url('/assets/images/hero/image-3.avif')`}>
+      <div class="page-hero-content">
+        <h1>Contacto</h1>
+      </div>
+    </section>
+
+    <section class="page-content">
+      <div class="page-content-inner reveal" style="max-width: 900px; margin: 0 auto;">
+        <div class="contact-cards">
+          {info.map((item) => (
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                {item.icon === 'map' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                )}
+                {item.icon === 'mail' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                )}
+                {item.icon === 'phone' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                )}
+              </div>
+              <h3>{item.title}</h3>
+              {item.href ? (
+                <a href={item.href} target="_blank" rel="noopener">{item.text}</a>
+              ) : (
+                <p>{item.text}</p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <h2 style="margin-bottom: 12px; text-align: center;">Escribe tu próxima gran historia.</h2>
+        <p style="margin-bottom: 40px; text-align: center; max-width: 560px; margin-left: auto; margin-right: auto;">
+          Contáctanos para consultar disponibilidad, promociones especiales o para cotizar la organización de tu evento privado.
+        </p>
+
+        <form class="contact-form reveal" onsubmit="event.preventDefault();">
+          <div class="contact-form-row">
+            <input type="text" placeholder="Tu nombre*" required />
+            <input type="email" placeholder="Tu correo electrónico*" required />
+          </div>
+          <div class="contact-form-row">
+            <input type="tel" placeholder="Tu teléfono*" required />
+            <select>
+              <option disabled selected>Motivo de tu consulta</option>
+              <option>Reserva de Hospedaje</option>
+              <option>Matrimonio / Evento Social</option>
+              <option>Evento Corporativo / Empresarial</option>
+              <option>Sesión Fotográfica / Producción</option>
+              <option>Otra consulta</option>
+            </select>
+          </div>
+          <textarea placeholder="Cuéntanos qué tienes en mente..." rows={5}></textarea>
+          <button type="submit" class="contact-form-btn">Enviar Consulta</button>
+        </form>
+      </div>
+    </section>
+
+    <section>
+      <iframe src="https://www.google.com/maps?q=Rivera,+Huila,+Colombia&output=embed" title="Ubicación de Área 89" loading="lazy" allowfullscreen class="map-embed"></iframe>
+    </section>
+</main>
+</BaseLayout>

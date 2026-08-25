@@ -1,0 +1,60 @@
+---
+const menuItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'La Villa', href: '/la-villa' },
+  { label: 'Experiencias', href: '/experiencias' },
+  { label: 'Galería', href: '/galeria' },
+  { label: 'Contacto', href: '/contacto' },
+];
+---
+
+<header class="site-nav has-bg" id="site-nav" transition:persist="site-nav">
+  <a href="/" aria-label="Área 89 inicio" class="nav-logo">
+    <img
+      src="/assets/images/logo.webp"
+      alt="Área 89"
+      class="brand-logo"
+      style="filter: brightness(0) invert(1);"
+    />
+  </a>
+
+  <button
+    type="button"
+    class="menu-toggle"
+    id="menu-toggle"
+    aria-label="Abrir menú"
+    aria-expanded="false"
+    aria-controls="menu-overlay"
+  >
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-menu" aria-hidden="true">
+      <line x1="4" x2="20" y1="12" y2="12"></line>
+      <line x1="4" x2="20" y1="6" y2="6"></line>
+      <line x1="4" x2="20" y1="18" y2="18"></line>
+    </svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-close" aria-hidden="true">
+      <line x1="18" x2="6" y1="6" y2="18"></line>
+      <line x1="6" x2="18" y1="6" y2="18"></line>
+    </svg>
+  </button>
+</header>
+
+<div
+  class="menu-overlay"
+  id="menu-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú principal"
+  transition:persist="menu-overlay"
+>
+  <div class="menu-overlay-inner">
+    <p class="menu-kicker">Área 89 · Rivera, Huila</p>
+    <nav class="menu-nav" aria-label="Principal">
+      {menuItems.map((item, index) => (
+        <a href={item.href} class="menu-link" data-astro-prefetch>
+          <span class="menu-index">{String(index + 1).padStart(2, '0')}</span>
+          <span class="menu-label">{item.label}</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+</div>

@@ -1,0 +1,373 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const services = [
+  {
+    icon: "/assets/images/service/icon-1.svg",
+    title: "Cine Privado y al Aire Libre",
+    desc: "Disfruta de nuestra sala de cine interior o vive la magia de proyecciones cinematográficas gigantes directamente desde la piscina.",
+  },
+  {
+    icon: "/assets/images/service/icon-2.svg",
+    title: "Circuito de Bienestar",
+    desc: "Relájate en nuestra piscina principal con rodadero, sumérgete en el jacuzzi climatizado o purifica tu cuerpo en el baño turco privado.",
+  },
+  {
+    icon: "/assets/images/service/icon-3.svg",
+    title: "Zona BBQ y Gastro-Bar",
+    desc: "Amplia barra social, asador equipado y espacios ideales para coctelería y platos de autor preparados para tus invitados.",
+  },
+  {
+    icon: "/assets/images/service/icon-4.svg",
+    title: "Entretenimiento Total",
+    desc: "Gimnasio privado, canchas deportivas, mesa de ping-pong, futbolito, dinamo y juegos de mesa gigantes.",
+  },
+];
+
+const images = [
+  "/assets/images/experiencia/1.avif",
+  "/assets/images/experiencia/2.avif",
+  "/assets/images/experiencia/3.avif",
+  "/assets/images/experiencia/4.avif",
+  "/assets/images/experiencia/5.avif",
+  "/assets/images/experiencia/6.avif",
+  "/assets/images/experiencia/7.avif",
+  "/assets/images/experiencia/8.avif",
+];
+
+const eventTypes = [
+  "Cumpleaños",
+  "Matrimonios",
+  "Pedida de mano",
+  "Despedidas de soltero",
+  "Aniversarios",
+  "Sesión de fotos",
+  "Baby Shower",
+  "Revelación de género",
+  "Bautizos",
+  "Primeras comuniones",
+  "Reuniones de empresa",
+  "Lanzamiento de marcas",
+  "Fiestas de fin de año",
+  "Pasadías privadas",
+  "Graduaciones",
+  "Eventos de música en vivo",
+];
+
+const modalities = [
+  {
+    name: "All Inclusive",
+    tag: "Todo incluido",
+    base: "$2'500.000",
+    people: "35 personas",
+    extra: "$40.000",
+    hours: "$750.000",
+    desc: "Nosotros organizamos todo para ti con base en tus preferencias e instrucciones.",
+  },
+  {
+    name: "Together",
+    tag: "Híbrido",
+    base: "$2'000.000",
+    people: "40 personas",
+    extra: "$30.000",
+    hours: "$500.000",
+    desc: "Alquilas la propiedad y nosotros te ayudamos con parte de la organización.",
+  },
+  {
+    name: "Just the House",
+    tag: "Solo la casa",
+    base: "$2'000.000",
+    people: "25 personas",
+    extra: "$60.000",
+    hours: "$300.000",
+    desc: "Alquilamos la propiedad y tú organizas todo.",
+  },
+  {
+    name: "Planner",
+    tag: "Organizador",
+    base: "$2'500.000",
+    people: "30 personas",
+    extra: "$50.000",
+    hours: "$350.000",
+    desc: "Si eres organizador de eventos y necesitas una locación VIP.",
+  },
+  {
+    name: "Cool Off",
+    tag: "Pasadía",
+    base: "$1'000.000",
+    people: "15 personas",
+    extra: "$35.000",
+    hours: "$300.000",
+    desc: "Invita a tus amigos, disfruta de las instalaciones y nosotros nos encargamos del catering.",
+  },
+];
+
+const extras = [
+  "Catering (comida y bebida)",
+  "Bartending",
+  "Repostería",
+  "Alquiler de mesas y sillas",
+  "Alquiler de vajillas y cubertería",
+  "Decoración",
+  "Fotografía",
+  "Meseros",
+  "Música en vivo",
+  "Transporte de invitados",
+  "Ceremonia religiosa",
+];
+---
+
+<BaseLayout title="Experiencias — Área 89">
+  <main>
+    <section
+      class="page-hero"
+      style={`background-image: url('/assets/images/experiencia/piscina.webp')`}
+    >
+      <div class="page-hero-content">
+        <h1>Experiencias</h1>
+      </div>
+    </section>
+
+    <!-- Amenities Insignia -->
+    <section class="page-content">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Nuestra Experiencia Insignia</h2>
+        <p
+          style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);"
+        >
+          Hemos diseñado más de 90 amenities para que no tengas que salir de la
+          propiedad. Todo lo que necesitas para el entretenimiento, el bienestar
+          y la celebración está en un solo lugar.
+        </p>
+
+        <div
+          style="display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 80px); align-items: start;"
+        >
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"
+          >
+            {
+              images.map((src, i) => (
+                <div
+                  class={`img-hover-zoom`}
+                  style={`border-radius: 12px; overflow: hidden; aspect-ratio: ${i === 0 || i === 5 ? "1/1" : "4/3"}; ${i === 0 ? "grid-column: 1 / -1;" : ""}`}
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    style="width: 100%; height: 100%; object-fit: cover;"
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+          <div class="service-cards">
+            {
+              services.map((s) => (
+                <div class="service-card">
+                  <div class="service-icon">
+                    <img src={s.icon} alt="" />
+                  </div>
+                  <div class="service-text">
+                    <h3>{s.title}</h3>
+                    <p>{s.desc}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tipos de Eventos -->
+    <section class="page-content section-dark">
+      <div class="page-content-inner" style="text-align: center;">
+        <h2 style="margin-bottom: 12px;">Celebraciones y Eventos Privados</h2>
+        <p
+          style="margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; color: rgba(255,255,255,0.55);"
+        >
+          El escenario ideal, con capilla privada, para enmarcar las fechas que
+          marcan un antes y un después en tu vida. Capacidad máxima para
+          eventos: 150 personas.
+        </p>
+
+        <div
+          style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 48px;"
+        >
+          {
+            eventTypes.map((type) => (
+              <span style="padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); font: 400 13px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.7);">
+                {type}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Modalidades de Alquiler -->
+    <section class="page-content">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Modalidades de Alquiler</h2>
+        <p
+          style="margin-bottom: 48px; max-width: 600px; color: rgba(255,255,255,0.55);"
+        >
+          Nos adaptamos a tus requerimientos. Elige la modalidad que mejor se
+          adapte a tu evento.
+        </p>
+
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 48px;"
+        >
+          {
+            modalities.map((m) => (
+              <div style="padding: 28px; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                  <h3 style="margin: 0; font: 600 20px 'Instrument Sans', sans-serif; color: #fff;">
+                    {m.name}
+                  </h3>
+                  <span style="padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,0.08); font: 500 11px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.5);">
+                    {m.tag}
+                  </span>
+                </div>
+                <p style="margin: 0 0 20px; font: 400 14px 'Instrument Sans', sans-serif; line-height: 1.6; color: rgba(255,255,255,0.55);">
+                  {m.desc}
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <p style="margin: 0; font: 400 11px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em;">
+                      Tarifa base
+                    </p>
+                    <p style="margin: 4px 0 0; font: 600 18px 'Instrument Sans', sans-serif; color: #fff;">
+                      {m.base}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="margin: 0; font: 400 11px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em;">
+                      Incluye
+                    </p>
+                    <p style="margin: 4px 0 0; font: 500 14px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.7);">
+                      {m.people}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="margin: 0; font: 400 11px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em;">
+                      Persona adicional
+                    </p>
+                    <p style="margin: 4px 0 0; font: 500 14px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.7);">
+                      {m.extra}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="margin: 0; font: 400 11px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em;">
+                      Horario extendido/hora
+                    </p>
+                    <p style="margin: 4px 0 0; font: 500 14px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.7);">
+                      {m.hours}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div
+          style="padding: 24px; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);"
+        >
+          <h3
+            style="margin: 0 0 16px; font: 600 18px 'Instrument Sans', sans-serif; color: #fff;"
+          >
+            Servicios Complementarios
+          </h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            {
+              extras.map((e) => (
+                <span style="padding: 6px 14px; border-radius: 8px; background: rgba(255,255,255,0.06); font: 400 13px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.65);">
+                  {e}
+                </span>
+              ))
+            }
+          </div>
+          <p
+            style="margin: 16px 0 0; font: 400 13px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.4);"
+          >
+            El precio dependerá de tus preferencias. Cuéntanos qué deseas y te
+            preparamos un presupuesto personalizado sin costo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Horarios y Reglas -->
+    <section class="page-content section-dark">
+      <div class="page-content-inner" style="max-width: 800px;">
+        <h2 style="margin-bottom: 24px;">Horarios y Condiciones</h2>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div
+            style="padding: 20px; border-radius: 12px; background: rgba(255,255,255,0.04);"
+          >
+            <h4
+              style="margin: 0 0 8px; font: 600 16px 'Instrument Sans', sans-serif; color: #fff;"
+            >
+              Horario Base
+            </h4>
+            <p
+              style="margin: 0; font: 400 14px 'Instrument Sans', sans-serif; line-height: 1.6; color: rgba(255,255,255,0.6);"
+            >
+              8:00 AM a 8:00 PM. Horario extendido hasta las 4:00 AM con costo
+              adicional.
+            </p>
+          </div>
+          <div
+            style="padding: 20px; border-radius: 12px; background: rgba(255,255,255,0.04);"
+          >
+            <h4
+              style="margin: 0 0 8px; font: 600 16px 'Instrument Sans', sans-serif; color: #fff;"
+            >
+              After Party
+            </h4>
+            <p
+              style="margin: 0; font: 400 14px 'Instrument Sans', sans-serif; line-height: 1.6; color: rgba(255,255,255,0.6);"
+            >
+              Extiende tu celebración hasta la 1:00 PM del día siguiente.
+              Tarifa: 60% de la tarifa base.
+            </p>
+          </div>
+          <div
+            style="padding: 20px; border-radius: 12px; background: rgba(255,255,255,0.04);"
+          >
+            <h4
+              style="margin: 0 0 8px; font: 600 16px 'Instrument Sans', sans-serif; color: #fff;"
+            >
+              Día Previo
+            </h4>
+            <p
+              style="margin: 0; font: 400 14px 'Instrument Sans', sans-serif; line-height: 1.6; color: rgba(255,255,255,0.6);"
+            >
+              Acceso desde 1:00 PM hasta 9:00 PM del día anterior para
+              preparación. Costo adicional según modalidad.
+            </p>
+          </div>
+          <div
+            style="padding: 20px; border-radius: 12px; background: rgba(255,255,255,0.04);"
+          >
+            <h4
+              style="margin: 0 0 8px; font: 600 16px 'Instrument Sans', sans-serif; color: #fff;"
+            >
+              Alquiler por Horas
+            </h4>
+            <p
+              style="margin: 0; font: 400 14px 'Instrument Sans', sans-serif; line-height: 1.6; color: rgba(255,255,255,0.6);"
+            >
+              $100.000 COP (día) / $150.000 COP (noche). Propiedad disponible de
+              8:00 AM a 10:00 PM.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

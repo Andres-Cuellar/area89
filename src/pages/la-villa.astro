@@ -1,0 +1,240 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const rooms = [
+  { name: 'Alcoba 1 (Principal)', label: 'Suite Privada', desc: 'Cama King-size premium, aire acondicionado, amplio vestier privado y un elegante baño de lujo integrado.', img: '/assets/images/rooms/alcoba-1.avif' },
+  { name: 'Alcoba 2', label: 'Conexión Exterior', desc: 'Confortable habitación climatizada con acceso directo a las terrazas, amplio vestier y baño privado moderno.', img: '/assets/images/rooms/alcoba-2.avif' },
+  { name: 'Alcoba 3', label: 'Familiar', desc: 'Espaciosa y acogedora, equipada con vestier moderno, aire acondicionado y baño independiente de diseño armonioso.', img: '/assets/images/rooms/alcoba-3.avif' },
+  { name: 'Alcoba 4', label: 'Alta Capacidad', desc: 'Habitación múltiple ideal para grupos grandes, con hermosas vistas exteriores, vestier y baño privado.', img: '/assets/images/rooms/alcoba-4.avif' },
+];
+
+const amenities = [
+  { name: 'Aire Acondicionado', available: true },
+  { name: 'Gimnasio', available: true },
+  { name: 'Jacuzzi', available: true },
+  { name: 'Piscina', available: true },
+  { name: 'Asadero / BBQ', available: true },
+  { name: 'Hamacas', available: true },
+  { name: 'Bicicletas', available: true },
+  { name: 'Cafetera', available: true },
+  { name: 'Juegos de Mesa', available: true },
+  { name: 'Cine Interior', available: true },
+  { name: 'Cine al Aire Libre', available: true },
+  { name: 'Parqueadero Privado', available: true },
+  { name: 'Desayuno incluido (5+ noches)', available: true },
+  { name: 'Conserjería 24/7', available: true },
+  { name: 'Wi-Fi 600 Mbps', available: true },
+  { name: 'Cocina Completa', available: true },
+  { name: 'Comedor', available: true },
+  { name: 'Licuadora', available: true },
+  { name: 'Hervidor de Agua', available: true },
+  { name: 'Congelador', available: true },
+  { name: 'Vajilla y Cubertería', available: true },
+  { name: 'Elementos para Cocinar', available: true },
+  { name: 'Sábanas y Almohadas Extra', available: true },
+  { name: 'Extintores', available: true },
+  { name: 'Kit de Primeros Auxilios', available: true },
+  { name: 'Ventilador de Techo', available: true },
+  { name: 'Servicio de Limpieza', available: true },
+  { name: 'Bidet', available: true },
+  { name: 'Sobrecamas', available: true },
+  { name: 'Canales Deportivos', available: true },
+  { name: 'Pantalla Interior 85"', available: true },
+  { name: 'Proyector Exterior', available: true },
+  { name: 'Sonido Envolvente', available: true },
+  { name: 'Máquina de Hielo', available: true },
+  { name: 'Barril Asador', available: true },
+  { name: 'Jardines', available: true },
+  { name: 'Terraza', available: true },
+  { name: 'Piscina Adultos', available: true },
+  { name: 'Piscina Niños', available: true },
+  { name: 'Rodadero', available: true },
+  { name: 'Baño Turco', available: true },
+  { name: 'Capilla Privada', available: true },
+  { name: 'Cancha de Fútbol', available: true },
+  { name: 'Cancha de Vóleibol', available: true },
+  { name: 'Mesa de Ping-Pong', available: true },
+  { name: 'Futbolito', available: true },
+  { name: 'Dinamo', available: true },
+  { name: 'Juegos de Mesa Gigantes', available: true },
+];
+
+const pricing = [
+  { people: 'Hasta 8', price: "$1'350.000", per: 'COP / Noche' },
+  { people: '10 personas', price: "$1'500.000", per: 'COP / Noche (descuento 10%)', promo: true },
+  { people: '16 personas', price: "$2'167.500", per: 'COP / Noche (descuento 15%)', promo: true },
+  { people: '21 personas', price: "$2'640.000", per: 'COP / Noche (descuento 20%)', promo: true },
+];
+
+const discounts = [
+  { days: '2 días', discount: '5%' },
+  { days: '3-4 días', discount: '10%' },
+  { days: '5-7 días', discount: '15%' },
+  { days: '8+ días', discount: '20%' },
+];
+
+const faq = [
+  { q: '¿La villa es totalmente privada?', a: 'Sí, absolutamente reservada. Se alquila la propiedad completa, garantizando exclusividad total.' },
+  { q: '¿Qué tan cerca está de Neiva?', a: 'A 10 minutos en coche, tomando la salida de doble calzada recientemente inaugurada.' },
+  { q: '¿Hay internet?', a: 'Área 89 cuenta con un servicio de internet de alta velocidad (600 megas) así como repetidores estratégicamente instalados para acceder a internet en toda la propiedad.' },
+  { q: '¿Cuántas personas pueden quedarse?', a: 'La ocupación máxima en cama o sofá-cama es de 18 personas. Se amplía a 24 con colchones adicionales (x3). Capacidad máxima para eventos: 150 personas.' },
+  { q: '¿Se pueden hacer eventos?', a: 'Sí, se permite la realización de eventos y celebraciones privadas. Contamos con 6 modalidades de alquiler para eventos.' },
+  { q: '¿Hay servicio de bar?', a: 'Ofrecemos una amplia variedad de bebidas bajo la modalidad de autoservicio (agua, gaseosas, jugos, cervezas nacionales). Licores y cerveza importada están disponibles a la carta.' },
+  { q: '¿Puedo llevar mis propios alimentos?', a: 'Sí, siempre y cuando no se encuentren en nuestra oferta de bebidas y snacks actualmente disponible.' },
+  { q: '¿Hay seguro para huéspedes?', a: 'Sí, contamos con un seguro de responsabilidad civil contractual y extracontractual con un cubrimiento de hasta 800 millones de pesos colombianos.' },
+  { q: '¿Cómo reservo?', a: 'Por WhatsApp o correo, dime qué días y el servicio que requieres (hostelería, eventos o ambos) y te confirmo disponibilidad.' },
+  { q: '¿Cuánto debo pagar para separar?', a: 'La reserva se confirma con el pago completo del servicio. Cancelación hasta 5 días antes con reembolso (15% de retención administrativa).' },
+  { q: '¿Hay tarifas diferentes entre semana y fines de semana?', a: 'Nuestras tarifas dependen del nivel de ocupación y no del día de semana. Seguimos las reglas de oferta y demanda.' },
+  { q: '¿Qué servicios tienen costo adicional?', a: 'Bebidas, snacks y artículos de consumo son lo único que no se incluye en la tarifa hotelera.' },
+  { q: '¿Hay personal disponible en caso de emergencia?', a: 'El conserje realizará la primera evaluación y contactará a las autoridades. Contamos con equipos reglamentarios de primeros auxilios, pero no con profesionales médicos.' },
+  { q: '¿La piscina cumple con normas de seguridad?', a: 'Sí, cumplimos con todas las normativas sobre establecimientos de comercio, incluyendo aquellas relativas al funcionamiento de piscinas.' },
+  { q: '¿Se permite fumar?', a: 'Sí, en áreas externas de la casa como terrazas, zona húmeda, etc.' },
+  { q: '¿Se admiten mascotas?', a: 'Se autorizan hasta 2 mascotas con certificado de animal de compañía.' },
+];
+---
+<BaseLayout title="La Villa — Área 89">
+<main>
+    <section class="page-hero" style={`background-image: url('/assets/images/la-villa/la-villa.webp')`}>
+      <div class="page-hero-content">
+        <h1>La Villa</h1>
+      </div>
+    </section>
+
+    <!-- About / Origen -->
+    <section class="page-content">
+      <div class="page-content-inner" style="display: grid; grid-template-columns: 4fr 5fr 3fr; gap: clamp(24px, 3vw, 48px); align-items: end;">
+        <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 3/4;">
+          <img src="/assets/images/about/image-1.avif" alt="Villa Área 89" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
+        </div>
+        <div>
+          <h2 style="margin-bottom: 24px;">Un mundo privado reservado para lo extraordinario.</h2>
+          <p style="margin-bottom: 16px; color: rgba(255,255,255,0.65);">
+            Área 89 es un destino exclusivo de hotelería premium concebido bajo un concepto diferenciador: la privacidad absoluta. A diferencia de la hotelería tradicional, no alquilamos habitaciones individuales; entregamos las llaves de la propiedad entera para garantizar un entorno completamente reservado, alejado de lo convencional y de las aglomeraciones del exterior.
+          </p>
+          <p style="margin-bottom: 24px; color: rgba(255,255,255,0.65);">
+            Nuestra filosofía se basa en el lujo contemporáneo, discreto y refinado. No buscamos ser una finca tradicional, sino el destino que las personas recuerdan con nostalgia. Aquí, cada detalle está milimétricamente diseñado para despertar curiosidad, generar bienestar y ofrecer libertad absoluta a quienes valoran los momentos que realmente importan.
+          </p>
+          <p style="color: rgba(255,255,255,0.5); font-size: 14px;">
+            Inaugurado en julio de 2026. Todos los dispositivos y amenities son nuevos y de primerísima calidad.
+          </p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div>
+            <h3 style="font: 300 clamp(48px,6vw,80px)/1 'Instrument Sans', sans-serif; color: #fff;">90<span style="font-weight:300;">+</span></h3>
+            <h4 style="margin: 8px 0 0; font: 500 clamp(14px,1.2vw,18px)/1.35 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.55);">Amenities<br />Exclusivos</h4>
+          </div>
+          <div style="border-radius: 14px; overflow: hidden; aspect-ratio: 4/3;">
+            <img src="/assets/images/about/image-2.avif" alt="Amenities" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Habitaciones -->
+    <section class="page-content section-dark">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">El descanso en su máxima expresión.</h2>
+        <p style="margin-bottom: 48px; max-width: 600px; color: rgba(255,255,255,0.55);">
+          Cuatro alcobas amplias, climatizadas y cuidadosamente acondicionadas. Área 89 se alquila completa, garantizando tu exclusividad.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          {rooms.map((room) => (
+            <div class="room-card">
+              <div class="room-card-text">
+                <div class="room-card-header">
+                  <h3>{room.name}</h3>
+                  <span class="room-card-label">{room.label}</span>
+                </div>
+                <p>{room.desc}</p>
+              </div>
+              <div class="room-card-image">
+                <img src={room.img} alt={room.name} loading="lazy" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Amenities -->
+    <section class="page-content">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Más de 90 Amenities Exclusivos</h2>
+        <p style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);">
+          Todo lo que necesitas para el entretenimiento, el bienestar y la celebración está en un solo lugar.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px;">
+          {amenities.map((a) => (
+            <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #4ade80; flex-shrink: 0;"></span>
+              <span style="font: 400 14px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.75);">{a.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarifas -->
+    <section class="page-content section-dark">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Tarifas</h2>
+        <p style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);">
+          Nuestras tarifas dependen del nivel de ocupación y no del día de semana. Seguimos las reglas de oferta y demanda.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 48px;">
+          {pricing.map((p) => (
+            <div style={`padding: 24px; border-radius: 16px; background: ${p.promo ? 'rgba(74,222,128,0.08)' : 'rgba(255,255,255,0.04)'}; border: 1px solid ${p.promo ? 'rgba(74,222,128,0.2)' : 'rgba(255,255,255,0.08)'};`}>
+              <p style="margin: 0 0 8px; font: 500 13px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em;">{p.people}</p>
+              <h3 style="margin: 0 0 4px; font: 700 28px 'Instrument Sans', sans-serif; color: #fff;">{p.price}</h3>
+              <p style="margin: 0; font: 400 13px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.45);">{p.per}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 style="margin-bottom: 16px; font: 600 20px 'Instrument Sans', sans-serif; color: #fff;">Descuento por días continuos</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 48px;">
+          {discounts.map((d) => (
+            <div style="padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+              <p style="margin: 0 0 4px; font: 400 13px 'Instrument Sans', sans-serif; color: rgba(255,255,255,0.5);">{d.days}</p>
+              <p style="margin: 0; font: 700 22px 'Instrument Sans', sans-serif; color: #4ade80;">-{d.discount}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="pricing-box">
+          <div>
+            <h3>Toda la Propiedad</h3>
+            <p>Capacidad máxima 24 personas. Incluye acceso exclusivo a las 4 alcobas, 90+ amenities, conserjería, limpieza diaria y desayuno (5+ noches). El consumo eléctrico se cobra adicional ($1.050 COP/kW).</p>
+          </div>
+          <div class="pricing-amount">
+            <h4>$1'350.000</h4>
+            <p class="pricing-period">COP / Noche (Base personas)</p>
+            <a href="/contacto" class="btn-white">Reservar Fechas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preguntas Frecuentes -->
+    <section class="page-content">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Preguntas Frecuentes</h2>
+        <p style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);">
+          Todo lo que necesitas saber antes de tu estadía en Área 89.
+        </p>
+
+        <div class="faq-2col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 1200px;">
+          {faq.map((item) => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <p class="faq-answer">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+</main>
+</BaseLayout>

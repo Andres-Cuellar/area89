@@ -1,0 +1,17 @@
+{
+  "name": "area89-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "astro": "^5.14.1"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0"
+  }
+}
