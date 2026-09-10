@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && wrangler deploy"
+    "deploy": "wrangler deploy"
   },
   "devDependencies": {
     "astro": "^5.14.1"
