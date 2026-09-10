@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({ locals }) => {
   const runtimeEnv = (locals as any)?.runtime?.env;
   const icalUrl = runtimeEnv?.ICAL_URL || import.meta.env.ICAL_URL;

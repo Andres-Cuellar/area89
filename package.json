@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "npx wrangler pages deploy ./dist --project-name a89"
+    "deploy": "astro build && wrangler deploy"
   },
   "devDependencies": {
     "astro": "^5.14.1"
