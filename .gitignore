@@ -10,6 +10,7 @@ node_modules/
 # environment
 .env
 .env.*
+.dev.vars
 
 # IDE
 .vscode/

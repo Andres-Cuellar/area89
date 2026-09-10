@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BookingWidget from '../components/BookingWidget.astro';
 
 const images = [
   '/assets/all-images/Fachada-1.webp',
@@ -52,6 +53,12 @@ const images = [
   '/assets/all-images/Juegos-de-mesa-1.webp',
   '/assets/all-images/Ping-pong---Futbolín-1.webp',
   '/assets/all-images/Hockey-de-Aire-1.webp',
+  '/assets/all-images/Baño-Turco-1.webp',
+  '/assets/all-images/Baño-Turco-2.webp',
+  '/assets/all-images/Baño-Auxiliar---1.webp',
+  '/assets/all-images/Baño-D3---1.webp',
+  '/assets/all-images/Baño-D4---1.webp',
+  '/assets/all-images/Baño-D4---2.webp',
 ];
 ---
 <BaseLayout title="Galería — Área 89">
@@ -59,6 +66,7 @@ const images = [
     <section class="page-hero" style={`background-image: url('/assets/all-images/Aérea-4.webp')`}>
       <div class="page-hero-content">
         <h1>Galería</h1>
+        <BookingWidget />
       </div>
     </section>
 

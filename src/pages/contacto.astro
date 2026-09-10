@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BookingWidget from '../components/BookingWidget.astro';
 
 const info = [
   { title: 'Ubicación', text: 'A 1 km del municipio de Rivera (Huila), sobre la vía principal desde la doble calzada que conduce a Neiva.', icon: 'map' },
@@ -12,6 +13,7 @@ const info = [
     <section class="page-hero" style={`background-image: url('/assets/all-images/Entrada-3.webp')`}>
       <div class="page-hero-content">
         <h1>Contacto</h1>
+        <BookingWidget />
       </div>
     </section>
 

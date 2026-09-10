@@ -132,7 +132,7 @@ body.menu-open {
 
 .brand-logo {
   display: block;
-  width: min(158px, 36vw);
+  width: min(108px, 36vw);
   height: auto;
 }
 
@@ -460,26 +460,25 @@ main {
   padding: clamp(60px, 8vw, 120px) clamp(20px, 5vw, 72px);
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 4fr 5fr 3fr;
-  gap: clamp(24px, 3vw, 48px);
-  max-width: 1400px;
-  margin: 0 auto;
-  align-items: end;
-}
-
-.about-image-left {
+.about-top {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2.8 / 1;
   border-radius: 16px;
   overflow: hidden;
+  margin-bottom: clamp(32px, 4vw, 48px);
 }
 
-.about-image-left img {
+.about-top img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.about-bottom {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: start;
 }
 
 .about-middle h2 {
@@ -530,6 +529,30 @@ main {
   margin: clamp(6px, 0.8vw, 12px) 0 0;
   font: 500 clamp(14px, 1.2vw, 18px) / 1.35 'Instrument Sans', sans-serif;
   color: rgba(255, 255, 255, 0.55);
+}
+
+.about-row-bottom {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3vw, 48px);
+  margin-top: clamp(8px, 1vw, 16px);
+}
+
+.about-funfact-inline {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.about-funfact-inline h3 {
+  font: 300 clamp(36px, 4vw, 56px) / 1 'Instrument Sans', sans-serif;
+  color: #fff;
+}
+
+.about-funfact-inline h4 {
+  margin: 0;
+  font: 500 clamp(12px, 1vw, 15px) / 1.3 'Instrument Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .about-image-right {
@@ -712,7 +735,7 @@ main {
 .service-text p {
   margin: 0;
   font: 400 clamp(14px, 1.1vw, 16px) / 1.6 'Instrument Sans', sans-serif;
-  color: rgba(33, 49, 56, 0.65);
+  color: #666;
 }
 
 /* ── Gallery Section (Marquee + Videos) ── */
@@ -784,6 +807,7 @@ main {
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   height: 100%;
   align-items: center;
   justify-content: center;
@@ -819,6 +843,45 @@ main {
   object-fit: cover;
 }
 
+.gallery-media {
+  display: none;
+}
+
+.gallery-media.is-active {
+  display: block;
+}
+
+.gallery-filters-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+
+.gallery-filters-inline .gallery-filter-btn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.65);
+  font: 500 13px 'Instrument Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gallery-filters-inline .gallery-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.gallery-filters-inline .gallery-filter-btn.is-active {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
 /* ── Footer ── */
 .footer-upper {
   background: var(--dark);
@@ -848,6 +911,11 @@ main {
   display: flex;
   flex-direction: column;
   gap: clamp(8px, 1vw, 12px);
+}
+
+.footer-col ul li {
+  font: 400 clamp(14px, 1.1vw, 16px) / 1.5 'Instrument Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .footer-col ul li a {
@@ -1115,8 +1183,8 @@ main {
 /* ── Page Hero (Internal Pages) ── */
 .page-hero {
   position: relative;
-  height: 40vh;
-  min-height: 300px;
+  height: 45vh;
+  min-height: 450px;
   display: flex;
   align-items: flex-end;
   background-size: cover;
@@ -1141,6 +1209,7 @@ main {
   font: 800 clamp(36px, 5vw, 64px) / 0.95 'Instrument Sans', sans-serif;
   letter-spacing: -0.04em;
   color: #fff;
+  margin-bottom: clamp(12px, 1.5vw, 20px);
 }
 
 /* ── Internal Page Content ── */
@@ -1646,22 +1715,20 @@ section {
 
 /* ── Responsive: Tablet ── */
 @media (max-width: 1023px) {
-  .about-grid {
-    grid-template-columns: 1fr 1fr;
+  .about-bottom {
+    grid-template-columns: 1fr;
     gap: clamp(32px, 5vw, 48px);
-    align-items: end;
   }
 
   .about-right {
-    grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
     gap: clamp(24px, 3vw, 40px);
-    align-items: end;
+    align-items: start;
   }
 
-  .about-image-left {
-    aspect-ratio: 4 / 5;
+  .about-image-right {
+    aspect-ratio: 4 / 3;
   }
 
   .experience-grid {
@@ -1747,11 +1814,11 @@ section {
   }
 
   .about-right {
-    grid-template-columns: 1fr 1fr;
-    align-items: end;
+    grid-template-columns: 1fr;
+    text-align: center;
   }
 
-  .about-image-left {
+  .about-image-right {
     aspect-ratio: 16 / 10;
   }
 

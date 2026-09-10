@@ -1,0 +1,517 @@
+---
+// BookingWidget.astro — Widget de reserva
+import Calendar from './Calendar.astro';
+---
+
+<div class="booking-widget">
+  {/* Paso 1: Campos de fecha */}
+  <div id="booking-calendar" class="booking-view">
+    <div class="booking-fields">
+      <div class="booking-field">
+        <label>Tipo de Reserva</label>
+        <select id="reservation-type">
+          <option value="hospedaje">Solo Hospedaje</option>
+          <option value="evento">Evento Privado</option>
+          <option value="cumple">Cumpleaños</option>
+          <option value="empresarial">Empresarial</option>
+          <option value="boda">Boda</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div class="booking-field">
+        <label>Llegada</label>
+        <input type="text" id="checkin-display" placeholder="Seleccionar" readonly />
+        <input type="hidden" id="checkin" />
+      </div>
+      <div class="booking-field">
+        <label>Salida</label>
+        <input type="text" id="checkout-display" placeholder="Seleccionar" readonly />
+        <input type="hidden" id="checkout" />
+      </div>
+      <div class="booking-field">
+        <label>Personas</label>
+        <select id="guests">
+          {Array.from({ length: 24 }, (_, i) => (
+            <option value={i + 1}>{i + 1}</option>
+          ))}
+        </select>
+      </div>
+      <button type="button" class="booking-btn" id="btn-check" disabled>
+        Consultar
+      </button>
+    </div>
+  </div>
+
+  {/* Paso 2: Formulario compacto */}
+  <div id="booking-form" class="booking-view hidden">
+    <div class="booking-summary">
+      <span class="summary-dates" id="summary-dates">-</span>
+      <span class="summary-nights" id="summary-nights">-</span>
+    </div>
+    <form id="reservation-form" class="reservation-form">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="Nombre*" required />
+        <input type="email" name="email" placeholder="Email*" required />
+        <input type="tel" name="phone" placeholder="Teléfono*" required />
+      </div>
+      <div class="form-row">
+        <textarea name="message" placeholder="Mensaje (opcional)" rows="1"></textarea>
+      </div>
+      <div class="form-row form-actions">
+        <button type="button" class="booking-btn-secondary" id="btn-back">← Volver</button>
+        <button type="submit" class="booking-btn">Enviar Solicitud</button>
+      </div>
+    </form>
+  </div>
+
+  {/* Paso 3: Confirmación */}
+  <div id="booking-confirm" class="booking-view hidden">
+    <div class="confirm-inline">
+      <span class="confirm-check">✓</span>
+      <span>¡Solicitud enviada! Te contactaremos pronto.</span>
+      <a id="confirm-whatsapp" href="#" target="_blank" class="whatsapp-link">WhatsApp</a>
+      <button type="button" class="booking-btn-secondary" id="btn-new">Nueva</button>
+    </div>
+  </div>
+
+  {/* Overlay + Calendario */}
+  <div id="calendar-overlay" class="calendar-overlay hidden"></div>
+  <div id="calendar-popup" class="calendar-popup hidden">
+    <div class="calendar-popup-header">
+      <span>Seleccioná tus fechas</span>
+      <button type="button" class="calendar-close" id="calendar-close">✕</button>
+    </div>
+    <Calendar blockedDates={[]} />
+    <div class="calendar-quick-dates">
+      <button type="button" class="quick-date" data-nights="1">1 noche</button>
+      <button type="button" class="quick-date" data-nights="2">2 noches</button>
+      <button type="button" class="quick-date" data-nights="3">3 noches</button>
+      <button type="button" class="quick-date" data-nights="5">5 noches</button>
+      <button type="button" class="quick-date" data-nights="7">1 semana</button>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .booking-widget {
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    z-index: 1000;
+    padding: 16px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-sizing: border-box;
+  }
+
+  .booking-view { animation: fadeUp 0.3s ease; }
+  .booking-view.hidden { display: none !important; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Campos principales ── */
+  .booking-fields {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 6px;
+  }
+
+  .booking-field {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .booking-field:hover { background: rgba(255,255,255,0.06); }
+
+  .booking-field label {
+    font: 500 10px 'Instrument Sans', sans-serif;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+
+  .booking-field input,
+  .booking-field select {
+    width: 100%;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font: 500 13px 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .booking-field input:focus,
+  .booking-field select:focus { outline: none; }
+  .booking-field input::placeholder { color: rgba(255,255,255,0.4); }
+  .booking-field select option { background: #1a1a1a; color: #fff; }
+
+  /* ── Botones ── */
+  .booking-btn {
+    height: auto;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: #fff;
+    color: #000;
+    font: 600 13px 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .booking-btn:hover:not(:disabled) { background: rgba(255,255,255,0.9); }
+  .booking-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .booking-btn-secondary {
+    padding: 0 16px;
+    height: 36px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    font: 500 13px 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .booking-btn-secondary:hover { background: rgba(255,255,255,0.06); color: #fff; }
+
+  /* ── Resumen ── */
+  .booking-summary {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font: 400 13px 'Instrument Sans', sans-serif;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .summary-nights { color: rgba(255,255,255,0.5); }
+
+  /* ── Formulario ── */
+  .reservation-form { display: flex; flex-direction: column; gap: 8px; }
+
+  .form-row { display: flex; gap: 8px; }
+
+  .reservation-form input,
+  .reservation-form textarea {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font: 400 13px 'Instrument Sans', sans-serif;
+    box-sizing: border-box;
+  }
+
+  .reservation-form input:focus,
+  .reservation-form textarea:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+  .reservation-form input::placeholder,
+  .reservation-form textarea::placeholder { color: rgba(255,255,255,0.35); }
+  .reservation-form textarea { resize: none; min-height: 36px; }
+  .form-actions { margin-top: 2px; }
+  .form-actions .booking-btn { flex: 1; }
+
+  /* ── Confirmación ── */
+  .confirm-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 10px;
+    font: 400 13px 'Instrument Sans', sans-serif;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .confirm-check {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(74,222,128,0.15);
+    color: #4ade80;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .whatsapp-link {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #25D366;
+    color: #fff;
+    font: 600 12px 'Instrument Sans', sans-serif;
+    text-decoration: none;
+  }
+
+  /* ── Calendario popup ── */
+  .calendar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999998;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .calendar-overlay.hidden { display: none; }
+
+  .calendar-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999999;
+    background: #111111;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.7);
+    width: 340px;
+  }
+
+  .calendar-popup.hidden { display: none; }
+
+  .calendar-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .calendar-popup-header span { font: 600 14px 'Instrument Sans', sans-serif; color: #fff; }
+
+  .calendar-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .calendar-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+  .calendar-quick-dates {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    flex-wrap: wrap;
+  }
+
+  .quick-date {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font: 500 12px 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quick-date:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.25); }
+
+  @media (max-width: 768px) {
+    .booking-fields { flex-wrap: wrap; padding: 8px; }
+    .booking-field { flex: 1 1 calc(50% - 4px); min-width: calc(50% - 4px); padding: 8px 12px; }
+    .booking-field label { font-size: 9px; }
+    .booking-field input, .booking-field select { height: 32px; font-size: 14px; }
+    .booking-btn { flex: 1 1 100%; height: 44px; margin-top: 4px; }
+    .form-row { flex-direction: column; }
+    .calendar-popup { width: calc(100% - 32px); max-width: 340px; }
+  }
+</style>
+
+<script>
+  function initBookingWidget() {
+    const calendarPopup = document.getElementById('calendar-popup');
+    if (!calendarPopup) return;
+
+    // Mover overlay y popup al body para que position: fixed funcione
+    const calendarOverlay = document.getElementById('calendar-overlay')!;
+    if (calendarOverlay.parentElement !== document.body) {
+      document.body.appendChild(calendarOverlay);
+    }
+    if (calendarPopup.parentElement !== document.body) {
+      document.body.appendChild(calendarPopup);
+    }
+    const calendarClose = document.getElementById('calendar-close')!;
+    const checkinDisplay = document.getElementById('checkin-display') as HTMLInputElement;
+    const checkoutDisplay = document.getElementById('checkout-display') as HTMLInputElement;
+    const checkinHidden = document.getElementById('checkin') as HTMLInputElement;
+    const checkoutHidden = document.getElementById('checkout') as HTMLInputElement;
+    const btnCheck = document.getElementById('btn-check') as HTMLButtonElement;
+    const bookingCalendar = document.getElementById('booking-calendar')!;
+    const bookingForm = document.getElementById('booking-form')!;
+    const bookingConfirm = document.getElementById('booking-confirm')!;
+    const btnBack = document.getElementById('btn-back')!;
+    const btnNew = document.getElementById('btn-new')!;
+    const form = document.getElementById('reservation-form') as HTMLFormElement;
+    const whatsappBtn = document.getElementById('confirm-whatsapp') as HTMLAnchorElement;
+
+    let checkinDate = '';
+    let checkoutDate = '';
+
+    const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const DAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+    function formatDateShort(dateStr: string): string {
+      if (!dateStr) return '';
+      const d = new Date(dateStr + 'T00:00:00');
+      return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+    }
+
+    function formatDateFull(dateStr: string): string {
+      if (!dateStr) return '';
+      const d = new Date(dateStr + 'T00:00:00');
+      return `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+    }
+
+    function calculateNights(): number {
+      if (!checkinDate || !checkoutDate) return 0;
+      return Math.round((new Date(checkoutDate).getTime() - new Date(checkinDate).getTime()) / 86400000);
+    }
+
+    function openCalendar() {
+      calendarPopup.classList.remove('hidden');
+      calendarOverlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCalendar() {
+      calendarPopup.classList.add('hidden');
+      calendarOverlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    checkinDisplay.addEventListener('click', openCalendar);
+    checkoutDisplay.addEventListener('click', openCalendar);
+    calendarClose.addEventListener('click', closeCalendar);
+    calendarOverlay.addEventListener('click', closeCalendar);
+
+    document.querySelectorAll('.quick-date').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const nights = parseInt((btn as HTMLElement).dataset.nights || '1');
+        if (checkinDate) {
+          const start = new Date(checkinDate);
+          start.setDate(start.getDate() + nights);
+          setDates(checkinDate, start.toISOString().split('T')[0]);
+        }
+      });
+    });
+
+    window.addEventListener('dates-selected', ((e: CustomEvent) => {
+      setDates(e.detail.checkin, e.detail.checkout);
+    }) as EventListener);
+
+    function setDates(checkin: string, checkout: string) {
+      checkinDate = checkin;
+      checkoutDate = checkout;
+      checkinHidden.value = checkin;
+      checkoutHidden.value = checkout;
+      checkinDisplay.value = checkin ? formatDateShort(checkin) : '';
+      checkoutDisplay.value = checkout ? formatDateShort(checkout) : '';
+      checkinDisplay.placeholder = checkin ? '' : 'Seleccionar';
+      checkoutDisplay.placeholder = checkout ? '' : 'Seleccionar';
+      btnCheck.disabled = !checkin || !checkout;
+      if (checkin && checkout) closeCalendar();
+    }
+
+    btnCheck.addEventListener('click', () => {
+      document.getElementById('summary-dates')!.textContent = `${formatDateFull(checkinDate)} → ${formatDateFull(checkoutDate)}`;
+      document.getElementById('summary-nights')!.textContent = `${calculateNights()} noche${calculateNights() > 1 ? 's' : ''}`;
+      bookingCalendar.classList.add('hidden');
+      bookingForm.classList.remove('hidden');
+    });
+
+    btnBack.addEventListener('click', () => {
+      bookingForm.classList.add('hidden');
+      bookingCalendar.classList.remove('hidden');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.textContent = 'Enviando...';
+      submitBtn.disabled = true;
+
+      const formData = new FormData(form);
+      const data = {
+        checkin: checkinDate, checkout: checkoutDate, nights: calculateNights(),
+        name: formData.get('name'), email: formData.get('email'), phone: formData.get('phone'),
+        guests: (document.getElementById('guests') as HTMLSelectElement).value,
+        reservation_type: (document.getElementById('reservation-type') as HTMLSelectElement).value,
+        message: formData.get('message') || '', source: 'area89-website',
+        timestamp: new Date().toISOString(),
+      };
+
+      try {
+        const webhookUrl = import.meta.env.PUBLIC_WEBHOOK_URL;
+        if (webhookUrl) {
+          await fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        }
+        bookingForm.classList.add('hidden');
+        bookingConfirm.classList.remove('hidden');
+        const msg = encodeURIComponent(`Hola, quiero reservar Área 89\n\n📅 ${formatDateFull(checkinDate)} → ${formatDateFull(checkoutDate)}\n🌙 ${data.nights} noche${data.nights > 1 ? 's' : ''}\n👥 ${data.guests} persona${parseInt(data.guests as string) > 1 ? 's' : ''}\n👤 ${data.name}\n📧 ${data.email}\n📱 ${data.phone}`);
+        whatsappBtn.href = `https://wa.me/573102067776?text=${msg}`;
+      } catch (err) {
+        console.error(err);
+        submitBtn.textContent = 'Enviar Solicitud';
+        submitBtn.disabled = false;
+      }
+    });
+
+    btnNew.addEventListener('click', () => {
+      bookingConfirm.classList.add('hidden');
+      bookingCalendar.classList.remove('hidden');
+      form.reset();
+      checkinDate = ''; checkoutDate = '';
+      checkinDisplay.value = ''; checkoutDisplay.value = '';
+      checkinDisplay.placeholder = 'Seleccionar'; checkoutDisplay.placeholder = 'Seleccionar';
+      btnCheck.disabled = true;
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.textContent = 'Enviar Solicitud'; submitBtn.disabled = false;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initBookingWidget);
+  document.addEventListener('astro:page-load', initBookingWidget);
+</script>

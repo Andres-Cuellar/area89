@@ -1,0 +1,397 @@
+---
+// GallerySection.astro — Videos + Imágenes por categoría (configurable)
+//
+// CONFIGURACIÓN: Editá el objeto categories abajo con tus categorías e imágenes
+// Cada categoría tiene un id, label y array de 5 imágenes
+//
+const categories = {
+  piscina: {
+    label: "Piscina",
+    images: [
+      "/assets/all-images/Piscina-1---1.webp",
+      "/assets/all-images/Piscina-1---5.webp",
+      "/assets/all-images/Piscina-2---3.webp",
+      "/assets/all-images/Jacuzzi-1.webp",
+      "/assets/all-images/Sillas-piscina-1.webp",
+    ],
+  },
+  dormitorios: {
+    label: "Dormitorios",
+    images: [
+      "/assets/all-images/Dormitorio-1---1.webp",
+      "/assets/all-images/Dormitorio-2---1.webp",
+      "/assets/all-images/Dormitorio-3---1.webp",
+      "/assets/all-images/Dormitorio-4---1.webp",
+      "/assets/all-images/Walking-Closet-D1--1.webp",
+    ],
+  },
+  entretenimiento: {
+    label: "Entretenimiento",
+    images: [
+      "/assets/all-images/Cine-Exterior-1.webp",
+      "/assets/all-images/Cine-interior-1.webp",
+      "/assets/all-images/Gym-1.webp",
+      "/assets/all-images/Juegos-de-mesa-1.webp",
+      "/assets/all-images/Ping-pong---Futbolín-1.webp",
+    ],
+  },
+  gastro: {
+    label: "Gastronomía",
+    images: [
+      "/assets/all-images/Bar-BBQ-1.webp",
+      "/assets/all-images/Bar-BBQ-4.webp",
+      "/assets/all-images/Sala---Cocina-1.webp",
+      "/assets/all-images/Sala---Cocina-3.webp",
+      "/assets/all-images/Bar-BBQ-6.webp",
+    ],
+  },
+  aereas: {
+    label: "Vista Aerea",
+    images: [
+      "/assets/all-images/Aérea-2.webp",
+      "/assets/all-images/Aérea-10.webp",
+      "/assets/all-images/Aérea-4.webp",
+      "/assets/all-images/Aérea-5.webp",
+      "/assets/all-images/Aérea-11.webp",
+    ],
+  },
+  banos: {
+    label: "Baños",
+    images: [
+      "/assets/all-images/Baño-Turco-1.webp",
+      "/assets/all-images/Baño-Turco-2.webp",
+      "/assets/all-images/Baño-Auxiliar---1.webp",
+      "/assets/all-images/Baño-D3---1.webp",
+      "/assets/all-images/Baño-D4---1.webp",
+    ],
+  },
+  bbq: {
+    label: "BBQ",
+    images: [
+      "/assets/all-images/Bar-BBQ-5.webp",
+      "/assets/all-images/Bar-BBQ-4.webp",
+      "/assets/all-images/Bar-BBQ-6.webp",
+      "/assets/all-images/Bar-BBQ-7.webp",
+      "/assets/all-images/Bar-BBQ-2.webp",
+    ],
+  },
+  capilla: {
+    label: "Capilla",
+    images: [
+      "/assets/all-images/Capilla-1.webp",
+      "/assets/all-images/Capilla-2.webp",
+      "/assets/all-images/Capilla-3.webp",
+      "/assets/all-images/Capilla-4.webp",
+      "/assets/all-images/Capilla-5.webp",
+    ],
+  },
+  cine: {
+    label: "Cine Exterior",
+    images: [
+      "/assets/all-images/Cine-Exterior-3.webp",
+      "/assets/all-images/Cine-Exterior-7.webp",
+      "/assets/all-images/Cine-Exterior-5.webp",
+      "/assets/all-images/Cine-Exterior-2.webp",
+      "/assets/all-images/Cine-Exterior-1.webp",
+    ],
+  },
+  cineinterior: {
+    label: "Cine Interior",
+    images: [
+      "/assets/all-images/Cine-interior-1.webp",
+      "/assets/all-images/Cine-interior-2.webp",
+      "/assets/all-images/Cine-Interior-3.webp",
+      "/assets/all-images/Cine-interior-1.webp",
+      "/assets/all-images/Cine-interior-2.webp",
+    ],
+  },
+  dormitorio1: {
+    label: "Dormitorio 1",
+    images: [
+      "/assets/all-images/Dormitorio-1---1.webp",
+      "/assets/all-images/Dormitorio-1---2.webp",
+      "/assets/all-images/Dormitorio-1---3.webp",
+      "/assets/all-images/Dormitorio-1---1.webp",
+      "/assets/all-images/Dormitorio-1---2.webp",
+    ],
+  },
+  dormitorio2: {
+    label: "Dormitorio 2",
+    images: [
+      "/assets/all-images/Dormitorio-2---1.webp",
+      "/assets/all-images/Dormitorio-2---2.webp",
+      "/assets/all-images/Dormitorio-2---3.webp",
+      "/assets/all-images/Dormitorio-2---4.webp",
+      "/assets/all-images/Dormitorio-2---5.webp",
+    ],
+  },
+  dormitorio3: {
+    label: "Dormitorio 3",
+    images: [
+      "/assets/all-images/Dormitorio-3---1.webp",
+      "/assets/all-images/Dormitorio-3---3.webp",
+      "/assets/all-images/Baño-D3---1.webp",
+      "/assets/all-images/Dormitorio-3---2.webp",
+      "/assets/all-images/Dormitorio-3---4.webp",
+    ],
+  },
+  dormitorio4: {
+    label: "Dormitorio 4",
+    images: [
+      "/assets/all-images/Dormitorio-4---1.webp",
+      "/assets/all-images/Dormitorio-4---2.webp",
+      "/assets/all-images/Dormitorio-4---3.webp",
+      "/assets/all-images/Baño-D4---1.webp",
+      "/assets/all-images/Baño-D4---2.webp",
+    ],
+  },
+  entrada: {
+    label: "Entrada",
+    images: [
+      "/assets/all-images/Entrada-2.webp",
+      "/assets/all-images/Entrada-1.webp",
+      "/assets/all-images/Entrada-4.webp",
+      "/assets/all-images/Entrada-5.webp",
+      "/assets/all-images/Entrada-8.webp",
+    ],
+  },
+  fachada: {
+    label: "Fachada",
+    images: [
+      "/assets/all-images/Fachada-1.webp",
+      "/assets/all-images/Fachada-2.webp",
+      "/assets/all-images/Fachada-3.webp",
+      "/assets/all-images/Fachada-7.webp",
+      "/assets/all-images/Fachada-4.webp",
+    ],
+  },
+};
+
+// Posters que se muestran por defecto (antes de clickear categoría)
+const posters = [
+  "/assets/all-images/Piscina-1---3.webp",
+  "/assets/all-images/Jacuzzi-2.webp",
+  "/assets/all-images/Terraza-2.webp",
+  "/assets/all-images/Cine-Exterior-2.webp",
+  "/assets/all-images/Bar-BBQ-2.webp",
+];
+---
+
+<section id="galeria" class="s3-gallery-section reveal-scale">
+  <div class="marquee-section" aria-hidden="true">
+    <div class="marquee">
+      <div class="marquee-track">
+        {
+          [
+            "Privacidad",
+            "Exclusividad",
+            "Naturaleza",
+            "Villa",
+            "Privacidad",
+            "Exclusividad",
+            "Naturaleza",
+            "Villa",
+          ].map((word) => (
+            <div class="marquee-item">
+              <h2>
+                <span>{word}</span>
+              </h2>
+              <img src="/assets/images/logo-square.webp" alt="" />
+            </div>
+          ))
+        }
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        {
+          [
+            "Privacidad",
+            "Exclusividad",
+            "Naturaleza",
+            "Villa",
+            "Privacidad",
+            "Exclusividad",
+            "Naturaleza",
+            "Villa",
+          ].map((word) => (
+            <div class="marquee-item">
+              <h2>
+                <span>{word}</span>
+              </h2>
+              <img src="/assets/images/logo-square.webp" alt="" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="s3-gallery-content">
+    <div class="gallery-filters-inline">
+      {
+        Object.entries(categories).map(([id, cat], i) => (
+          <button
+            type="button"
+            class={`gallery-filter-btn${i === 0 ? " is-active" : ""}`}
+            data-filter={id}
+          >
+            {cat.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="gallery-expand-row" id="gallery-row">
+      {
+        posters.map((src, i) => (
+          <div class="gallery-expand-item" data-index={i}>
+            <img
+              class="gallery-media is-active"
+              src={src}
+              alt={`Experiencia Área 89 ${i + 1}`}
+              loading="lazy"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filterBtns = document.querySelectorAll(".gallery-filter-btn");
+    const items = document.querySelectorAll(".gallery-expand-item");
+
+    const categories = {
+      piscina: [
+        "/assets/all-images/Piscina-1---1.webp",
+        "/assets/all-images/Piscina-1---5.webp",
+        "/assets/all-images/Piscina-2---3.webp",
+        "/assets/all-images/Jacuzzi-1.webp",
+        "/assets/all-images/Sillas-piscina-1.webp",
+      ],
+      dormitorios: [
+        "/assets/all-images/Dormitorio-1---1.webp",
+        "/assets/all-images/Dormitorio-2---1.webp",
+        "/assets/all-images/Dormitorio-3---1.webp",
+        "/assets/all-images/Dormitorio-4---1.webp",
+        "/assets/all-images/Walking-Closet-D1--1.webp",
+      ],
+      entretenimiento: [
+        "/assets/all-images/Cine-Exterior-1.webp",
+        "/assets/all-images/Cine-interior-1.webp",
+        "/assets/all-images/Gym-1.webp",
+        "/assets/all-images/Juegos-de-mesa-1.webp",
+        "/assets/all-images/Ping-pong---Futbolín-1.webp",
+      ],
+      gastro: [
+        "/assets/all-images/Bar-BBQ-1.webp",
+        "/assets/all-images/Bar-BBQ-4.webp",
+        "/assets/all-images/Sala---Cocina-1.webp",
+        "/assets/all-images/Sala---Cocina-3.webp",
+        "/assets/all-images/Bar-BBQ-6.webp",
+      ],
+      aereas: [
+        "/assets/all-images/Aérea-2.webp",
+      "/assets/all-images/Aérea-10.webp",
+      "/assets/all-images/Aérea-4.webp",
+      "/assets/all-images/Aérea-5.webp",
+      "/assets/all-images/Aérea-11.webp",
+      ],
+      banos: [
+        "/assets/all-images/Baño-Turco-1.webp",
+        "/assets/all-images/Baño-Turco-2.webp",
+        "/assets/all-images/Baño-Auxiliar---1.webp",
+        "/assets/all-images/Baño-D3---1.webp",
+        "/assets/all-images/Baño-D4---1.webp",
+      ],
+      bbq: [
+        "/assets/all-images/Bar-BBQ-5.webp",
+        "/assets/all-images/Bar-BBQ-4.webp",
+        "/assets/all-images/Bar-BBQ-6.webp",
+        "/assets/all-images/Bar-BBQ-7.webp",
+        "/assets/all-images/Bar-BBQ-2.webp",
+      ],
+      capilla: [
+        "/assets/all-images/Capilla-1.webp",
+        "/assets/all-images/Capilla-2.webp",
+        "/assets/all-images/Capilla-3.webp",
+        "/assets/all-images/Capilla-4.webp",
+        "/assets/all-images/Capilla-5.webp",
+      ],
+      cine: [
+        "/assets/all-images/Cine-Exterior-3.webp",
+        "/assets/all-images/Cine-Exterior-7.webp",
+        "/assets/all-images/Cine-Exterior-5.webp",
+        "/assets/all-images/Cine-Exterior-2.webp",
+        "/assets/all-images/Cine-Exterior-1.webp",
+      ],
+      cineinterior: [
+        "/assets/all-images/Cine-interior-1.webp",
+        "/assets/all-images/Cine-interior-2.webp",
+        "/assets/all-images/Cine-Interior-3.webp",
+        "/assets/all-images/Cine-interior-1.webp",
+        "/assets/all-images/Cine-interior-2.webp",
+      ],
+      dormitorio1: [
+        "/assets/all-images/Dormitorio-1---1.webp",
+        "/assets/all-images/Dormitorio-1---2.webp",
+        "/assets/all-images/Dormitorio-1---3.webp",
+        "/assets/all-images/Dormitorio-1---1.webp",
+        "/assets/all-images/Dormitorio-1---2.webp",
+      ],
+      dormitorio2: [
+        "/assets/all-images/Dormitorio-2---1.webp",
+        "/assets/all-images/Dormitorio-2---2.webp",
+        "/assets/all-images/Dormitorio-2---3.webp",
+        "/assets/all-images/Dormitorio-2---4.webp",
+        "/assets/all-images/Dormitorio-2---5.webp",
+      ],
+      dormitorio3: [
+        "/assets/all-images/Dormitorio-3---1.webp",
+        "/assets/all-images/Dormitorio-3---3.webp",
+        "/assets/all-images/Baño-D3---1.webp",
+        "/assets/all-images/Dormitorio-3---2.webp",
+        "/assets/all-images/Dormitorio-3---4.webp",
+      ],
+      dormitorio4: [
+        "/assets/all-images/Dormitorio-4---1.webp",
+        "/assets/all-images/Dormitorio-4---2.webp",
+        "/assets/all-images/Dormitorio-4---3.webp",
+        "/assets/all-images/Baño-D4---1.webp",
+        "/assets/all-images/Baño-D4---2.webp",
+      ],
+      entrada: [
+        "/assets/all-images/Entrada-2.webp",
+        "/assets/all-images/Entrada-1.webp",
+        "/assets/all-images/Entrada-4.webp",
+        "/assets/all-images/Entrada-5.webp",
+        "/assets/all-images/Entrada-8.webp",
+      ],
+      fachada: [
+        "/assets/all-images/Fachada-1.webp",
+        "/assets/all-images/Fachada-2.webp",
+        "/assets/all-images/Fachada-3.webp",
+        "/assets/all-images/Fachada-7.webp",
+        "/assets/all-images/Fachada-4.webp",
+      ],
+    };
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach((b) => b.classList.remove("is-active"));
+        btn.classList.add("is-active");
+
+        const filter = btn.getAttribute("data-filter");
+        const imgs = categories[filter];
+
+        items.forEach((item, i) => {
+          const img = item.querySelector("img");
+          if (!img) return;
+          img.classList.add("is-active");
+          img.src = imgs[i];
+        });
+      });
+    });
+  });
+</script>

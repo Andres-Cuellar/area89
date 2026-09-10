@@ -1,0 +1,363 @@
+---
+// Calendar.astro — Calendario interactivo con fechas bloqueadas
+interface Props {
+  blockedDates: string[];
+  selectedCheckin?: string;
+  selectedCheckout?: string;
+}
+
+const { blockedDates, selectedCheckin = '', selectedCheckout = '' } = Astro.props;
+---
+
+<div class="calendar-wrapper" data-blocked={JSON.stringify(blockedDates)}>
+  <div class="calendar-nav">
+    <button type="button" class="calendar-nav-btn" id="prev-month" aria-label="Mes anterior">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="calendar-month" id="calendar-month"></span>
+    <button type="button" class="calendar-nav-btn" id="next-month" aria-label="Mes siguiente">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="calendar-weekdays">
+    <span>Do</span><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span>
+  </div>
+  <div class="calendar-grid" id="calendar-grid"></div>
+  <div class="calendar-legend">
+    <span class="legend-item"><span class="legend-dot available"></span>Disponible</span>
+    <span class="legend-item"><span class="legend-dot blocked"></span>Ocupado</span>
+    <span class="legend-item"><span class="legend-dot selected"></span>Seleccionado</span>
+  </div>
+</div>
+
+<style is:global>
+  .calendar-wrapper {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .calendar-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .calendar-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .calendar-month {
+    font: 600 16px 'Instrument Sans', sans-serif;
+    color: #fff;
+    text-transform: capitalize;
+  }
+
+  .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+
+  .calendar-weekdays span {
+    text-align: center;
+    font: 500 11px 'Instrument Sans', sans-serif;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 4px 0;
+    text-transform: uppercase;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font: 600 15px 'Instrument Sans', sans-serif;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+
+  .calendar-day:hover:not(.empty):not(.blocked):not(.past) {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .calendar-day.empty {
+    cursor: default;
+  }
+
+  .calendar-day.past {
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+  }
+
+  .calendar-day.blocked {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.25);
+    cursor: not-allowed;
+    text-decoration: line-through;
+    font-weight: 700;
+  }
+
+  .calendar-day.today {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .calendar-day.checkin,
+  .calendar-day.checkout {
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+  }
+
+  .calendar-day.in-range {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 0;
+  }
+
+  .calendar-day.checkin {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .calendar-day.checkout {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .calendar-day.checkin.checkout {
+    border-radius: 8px;
+  }
+
+  .calendar-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 500 12px 'Instrument Sans', sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .legend-dot.available {
+    background: rgba(74, 222, 128, 0.9);
+  }
+
+  .legend-dot.blocked {
+    background: #ef4444;
+  }
+
+  .legend-dot.selected {
+    background: #fff;
+  }
+
+  @media (max-width: 400px) {
+    .calendar-wrapper {
+      padding: 16px;
+      max-width: 100%;
+    }
+
+    .calendar-day {
+      font-size: 12px;
+    }
+  }
+</style>
+
+<script>
+  function initCalendar() {
+    const wrapper = document.querySelector('.calendar-wrapper') as HTMLElement;
+    if (!wrapper) return;
+    let blockedDates: string[] = [];
+
+    // Cargar fechas bloqueadas desde la API
+    fetch('/api/ical')
+      .then(r => r.json())
+      .then(data => {
+        if (data.blocked && Array.isArray(data.blocked)) {
+          blockedDates = data.blocked;
+        }
+        render();
+      })
+      .catch(err => {
+        console.error('Error loading blocked dates:', err);
+        render();
+      });
+
+    let currentDate = new Date();
+    let selectedCheckin = '';
+    let selectedCheckout = '';
+
+    const monthEl = document.getElementById('calendar-month')!;
+    const gridEl = document.getElementById('calendar-grid')!;
+    const prevBtn = document.getElementById('prev-month')!;
+    const nextBtn = document.getElementById('next-month')!;
+
+    const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    function formatDate(date: Date): string {
+      return date.toISOString().split('T')[0];
+    }
+
+    function isBlocked(dateStr: string): boolean {
+      return blockedDates.includes(dateStr);
+    }
+
+    function isPast(dateStr: string): boolean {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return new Date(dateStr + 'T00:00:00') < today;
+    }
+
+    function isToday(dateStr: string): boolean {
+      return dateStr === formatDate(new Date());
+    }
+
+    function isInRange(dateStr: string): boolean {
+      if (!selectedCheckin || !selectedCheckout) return false;
+      return dateStr > selectedCheckin && dateStr < selectedCheckout;
+    }
+
+    function isCheckin(dateStr: string): boolean {
+      return dateStr === selectedCheckin;
+    }
+
+    function isCheckout(dateStr: string): boolean {
+      return dateStr === selectedCheckout;
+    }
+
+    function hasBlockedInRange(start: string, end: string): boolean {
+      const current = new Date(start + 'T00:00:00');
+      const endDate = new Date(end + 'T00:00:00');
+      while (current < endDate) {
+        if (isBlocked(formatDate(current))) return true;
+        current.setDate(current.getDate() + 1);
+      }
+      return false;
+    }
+
+    function render() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      monthEl.textContent = `${MONTHS[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      gridEl.innerHTML = '';
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'calendar-day empty';
+        gridEl.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const el = document.createElement('div');
+        el.className = 'calendar-day';
+        el.textContent = String(day);
+        el.dataset.date = dateStr;
+
+        if (isPast(dateStr)) {
+          el.classList.add('past');
+        } else if (isBlocked(dateStr)) {
+          el.classList.add('blocked');
+        } else {
+          el.addEventListener('click', () => handleDayClick(dateStr));
+        }
+
+        if (isToday(dateStr)) el.classList.add('today');
+        if (isCheckin(dateStr)) el.classList.add('checkin');
+        if (isCheckout(dateStr)) el.classList.add('checkout');
+        if (isInRange(dateStr)) el.classList.add('in-range');
+
+        gridEl.appendChild(el);
+      }
+    }
+
+    function handleDayClick(dateStr: string) {
+      if (!selectedCheckin || (selectedCheckin && selectedCheckout)) {
+        selectedCheckin = dateStr;
+        selectedCheckout = '';
+        updateInputs(dateStr, '');
+      } else if (dateStr > selectedCheckin) {
+        if (hasBlockedInRange(selectedCheckin, dateStr)) {
+          alert('Hay fechas ocupadas en el rango seleccionado. Por favor elegí otras fechas.');
+          return;
+        }
+        selectedCheckout = dateStr;
+        updateInputs(selectedCheckin, dateStr);
+      } else {
+        selectedCheckin = dateStr;
+        selectedCheckout = '';
+        updateInputs(dateStr, '');
+      }
+      render();
+    }
+
+    function updateInputs(checkin: string, checkout: string) {
+      const checkinInput = document.getElementById('checkin') as HTMLInputElement;
+      const checkoutInput = document.getElementById('checkout') as HTMLInputElement;
+      if (checkinInput) checkinInput.value = checkin;
+      if (checkoutInput) checkoutInput.value = checkout;
+
+      window.dispatchEvent(new CustomEvent('dates-selected', {
+        detail: { checkin, checkout }
+      }));
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      render();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      render();
+    });
+
+    render();
+  }
+
+  document.addEventListener('DOMContentLoaded', initCalendar);
+  document.addEventListener('astro:page-load', initCalendar);
+</script>

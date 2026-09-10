@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BookingWidget from '../components/BookingWidget.astro';
 
 const services = [
   {
@@ -166,58 +167,65 @@ const extras = [
     >
       <div class="page-hero-content">
         <h1>Experiencias</h1>
+        <BookingWidget />
       </div>
     </section>
 
     <!-- Amenities Insignia -->
-    <section class="page-content">
+    <section class="page-content experiencias-section">
       <div class="page-content-inner">
         <h2 style="margin-bottom: 12px;">Nuestra Experiencia Insignia</h2>
         <p
           style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);"
         >
-          Hemos diseñado más de 90 amenities para que no tengas que salir de la
+          Hemos diseñado más de 96 amenities para que no tengas que salir de la
           propiedad. Todo lo que necesitas para el entretenimiento, el bienestar
           y la celebración está en un solo lugar.
         </p>
 
-        <div
-          style="display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 80px); align-items: start;"
+        <div class="service-cards">
+          {
+            services.map((s) => (
+              <div class="service-card">
+                <div class="service-icon">
+                  <img src={s.icon} alt="" />
+                </div>
+                <div class="service-text">
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Galería de imágenes -->
+    <section class="page-content section-dark">
+      <div class="page-content-inner">
+        <h2 style="margin-bottom: 12px;">Galería</h2>
+        <p
+          style="margin-bottom: 48px; max-width: 560px; color: rgba(255,255,255,0.55);"
         >
-          <div
-            style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"
-          >
-            {
-              images.map((img, i) => (
-                <div
-                  class={`img-hover-zoom`}
-                  style={`border-radius: 12px; overflow: hidden; aspect-ratio: ${i === 0 || i === 5 ? "1/1" : "4/3"}; ${i === 0 ? "grid-column: 1 / -1;" : ""}`}
-                >
-                  <img
-                    src={img.src}
-                    alt=""
-                    style="width: 100%; height: 100%; object-fit: cover;"
-                    loading="lazy"
-                  />
-                </div>
-              ))
-            }
-          </div>
-          <div class="service-cards">
-            {
-              services.map((s) => (
-                <div class="service-card">
-                  <div class="service-icon">
-                    <img src={s.icon} alt="" />
-                  </div>
-                  <div class="service-text">
-                    <h3>{s.title}</h3>
-                    <p>{s.desc}</p>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
+          Cada rincón de Área 89 fue diseñado para crear experiencias inolvidables.
+        </p>
+
+        <div class="experiencias-grid">
+          {
+            images.map((img) => (
+              <div
+                class="experiencia-item"
+                data-src={img.src}
+              >
+                <img
+                  src={img.src}
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -411,4 +419,145 @@ const extras = [
       </div>
     </section>
   </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <button type="button" class="lightbox-close" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
 </BaseLayout>
+
+<style is:global>
+  .experiencias-section .service-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(20px, 2.5vw, 32px);
+  }
+
+  .experiencias-section .service-text p {
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    .experiencias-section .service-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .experiencias-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .experiencia-item {
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+    transition: transform 0.3s ease;
+  }
+
+  .experiencia-item:hover {
+    transform: scale(1.03);
+  }
+
+  .experiencia-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: pointer;
+  }
+
+  .lightbox.active {
+    display: flex;
+  }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  @media (max-width: 1024px) {
+    .experiencias-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .experiencias-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const lightboxClose = document.getElementById('lightbox-close')!;
+
+    if (!lightbox) return;
+
+    document.querySelectorAll('.experiencia-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        const src = (item as HTMLElement).dataset.src;
+        if (src && lightboxImg) {
+          lightboxImg.src = src;
+          lightbox.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initLightbox);
+  document.addEventListener('astro:page-load', initLightbox);
+</script>
